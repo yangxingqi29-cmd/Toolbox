@@ -381,7 +381,8 @@ function renderQR(canvas, text, size, eccLevel){
       $box.innerHTML = '';
       $box.appendChild(canvas);
     }catch(e){
-      $box.innerHTML = '<span style="color:#c00;font-size:12px;padding:12px;text-align:center">' + e.message + '</span>';
+      // 抛出来的 message 就是 i18n 的 key，这里再翻一次
+      $box.innerHTML = '<span style="color:#c00;font-size:12px;padding:12px;text-align:center">' + t(e.message) + '</span>';
     }
   }
 

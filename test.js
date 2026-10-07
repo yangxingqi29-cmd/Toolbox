@@ -216,5 +216,104 @@ console.log('[regex-tester]');
   ok('no infinite loop on zero-width', zero.matches.length >= 1 && zero.matches.length < 100);
 }
 
+/* ---------------------------------------------------------------- i18n */
+console.log('[i18n]');
+{
+  // i18n.js 没有 "页面绑定" 分隔线，且末尾有启动 IIFE 会碰 document，
+  // 所以给它一个自己的沙箱，手动提供 document / navigator 等。
+  const src = fs.readFileSync(path.join(__dirname, 'js', 'i18n.js'), 'utf8');
+  const noop = () => {};
+
+  // 每次 mk 都建一份全新的假 DOM，并把 createElement 的结果收进 appended，
+  // 这样 installAlternates() 走的仍是真实代码路径，能被断言到。
+  const mk = loc => {
+    const appended = [];
+    const doc = {
+      documentElement: { lang:'', setAttribute:noop, removeAttribute:noop, getAttribute:()=>null },
+      readyState: 'complete', title: '',
+      querySelector: () => null,
+      querySelectorAll: () => [],
+      createElement: () => ({}),
+      head: { appendChild: n => appended.push(n) },
+      addEventListener: noop, dispatchEvent: noop
+    };
+    const api = new Function(
+      'document','location','navigator','localStorage','history','CustomEvent','setTimeout','Intl',
+      '"use strict";' + src + '\n; return { I18N, t, tUnit, i18nLang, I18N_LANGS, i18nLocale, installAlternates };'
+    )(
+      doc,
+      { search:'', href:'http://x/' },
+      { language: loc, languages: [loc] },
+      { getItem: () => null, setItem: noop },
+      { replaceState: noop },
+      function(){}, noop, Intl
+    );
+    api.__appended = appended;
+    return api;
+  };
+
+  const zh = mk('zh-CN');
+  eq('detect zh',        zh.i18nLang(), 'zh');
+  eq('t basic',          zh.t('Home'), '首页');
+  eq('t fallback=key',   zh.t('Nope not in dict'), 'Nope not in dict');
+  eq('t placeholder',    zh.t('{n} matches', { n: 3 }), '3 处匹配');
+  eq('t missing var',    zh.t('{n} matches', {}), '{n} 处匹配');
+  eq('t null-safe',      zh.t(null), '');
+  eq('tUnit hit',        zh.tUnit('length', 0, 'Meter (m)'), '米 (m)');
+  eq('tUnit fallback',   zh.tUnit('length', 99, 'Meter (m)'), 'Meter (m)');
+  eq('locale',           zh.i18nLocale(), 'zh-CN');
+
+  // hreflang 备用链接：4 种语言 + 1 条 x-default，全部从当前 URL 现算，不写死域名
+  const alt = zh.__appended;
+  eq('alternates count',   alt.length, 5);
+  eq('alternates all rel', alt.every(l => l.rel === 'alternate'), true);
+  eq('alternates en',      alt[0].hreflang + ' ' + alt[0].href, 'en http://x/');
+  eq('alternates zh',      alt[1].hreflang + ' ' + alt[1].href, 'zh http://x/?lang=zh');
+  eq('alternates es',      alt[2].hreflang + ' ' + alt[2].href, 'es http://x/?lang=es');
+  eq('alternates ru',      alt[3].hreflang + ' ' + alt[3].href, 'ru http://x/?lang=ru');
+  eq('alternates xdefault',alt[4].hreflang + ' ' + alt[4].href, 'x-default http://x/');
+
+  const ru = mk('ru-RU');
+  eq('detect ru',        ru.i18nLang(), 'ru');
+  eq('ru basic',         ru.t('Home'), 'Главная');
+
+  const es = mk('es-ES');
+  eq('detect es',        es.i18nLang(), 'es');
+  eq('es basic',         es.t('Home'), 'Inicio');
+
+  const en = mk('en-US');
+  eq('detect en',        en.i18nLang(), 'en');
+  eq('en passthrough',   en.t('Home'), 'Home');
+
+  // 三种语言的键集合必须完全一致，否则某语言会掉回英文
+  const keysOf = o => Object.keys(o).filter(k => k !== 'units').sort();
+  const zhK = keysOf(zh.I18N.zh), esK = keysOf(zh.I18N.es), ruK = keysOf(zh.I18N.ru);
+  eq('zh/es same size',  zhK.length, esK.length);
+  eq('es/ru same size',  esK.length, ruK.length);
+  eq('no key drift',     zhK.filter(k => esK.indexOf(k) < 0 || ruK.indexOf(k) < 0), []);
+
+  // 单位名数组长度必须和 UNITS 表对齐，否则尾部单位会掉回英文
+  const { UNITS } = load('units.js', ['UNITS']);
+  const drift = [];
+  for (const cat of Object.keys(UNITS)){
+    const n = Object.keys(UNITS[cat].units).length;
+    for (const l of ['zh', 'es', 'ru']){
+      const arr = zh.I18N[l].units[cat];
+      if (!arr || arr.length !== n)
+        drift.push(l + '.' + cat + ' 有 ' + (arr ? arr.length : 0) + ' 条，应为 ' + n);
+    }
+  }
+  eq('unit arrays match UNITS', drift, []);
+
+  // 单位名不能有重复（复制粘贴时最容易出的错）
+  const dup = [];
+  for (const l of ['zh', 'es', 'ru']){
+    for (const [cat, arr] of Object.entries(zh.I18N[l].units)){
+      if (new Set(arr).size !== arr.length) dup.push(l + '.' + cat);
+    }
+  }
+  eq('no duplicate unit names', dup, []);
+}
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

@@ -79,7 +79,7 @@ async function compress(file, opts){
     currentFile = f;
     $preview.src = URL.createObjectURL(f);
     $preview.style.display = 'block';
-    $result.innerHTML = `<div class="kv"><span>Original</span><span>${f.name} · ${humanSize(f.size)}</span></div>`;
+    $result.innerHTML = `<div class="kv"><span>${t('Original')}</span><span>${f.name} · ${humanSize(f.size)}</span></div>`;
     outBlob = null;
     $download.disabled = true;
   }
@@ -95,9 +95,12 @@ async function compress(file, opts){
   $quality.addEventListener('input', ()=> $qualityVal.textContent = Math.round($quality.value * 100) + '%');
 
   $run.addEventListener('click', async ()=>{
-    if (!currentFile){ $result.innerHTML = '<span class="muted">Pick an image first</span>'; return; }
+    if (!currentFile){
+      $result.innerHTML = '<span class="muted">' + t('Pick an image first') + '</span>';
+      return;
+    }
     $run.disabled = true;
-    $run.textContent = 'Compressing…';
+    $run.textContent = t('Compressing…');
     try{
       const opts = {
         quality: parseFloat($quality.value),
@@ -111,17 +114,18 @@ async function compress(file, opts){
       outName = currentFile.name.replace(/\.[^.]+$/, '') + '-min.' + (ext === 'jpeg' ? 'jpg' : ext);
       const saved = r.srcSize > 0 ? (1 - r.outSize / r.srcSize) * 100 : 0;
       $result.innerHTML = `
-        <div class="kv"><span>Original</span><span>${r.srcW}×${r.srcH} · ${humanSize(r.srcSize)}</span></div>
-        <div class="kv"><span>Output</span><span>${r.width}×${r.height} · ${humanSize(r.outSize)}</span></div>
-        <div class="kv"><span>Saved</span><span style="color:${saved>0?'var(--ok)':'var(--warn)'}">${saved.toFixed(1)}%</span></div>
-        <div class="kv"><span>Format</span><span>${ext.toUpperCase()}</span></div>`;
+        <div class="kv"><span>${t('Original')}</span><span>${r.srcW}×${r.srcH} · ${humanSize(r.srcSize)}</span></div>
+        <div class="kv"><span>${t('Output')}</span><span>${r.width}×${r.height} · ${humanSize(r.outSize)}</span></div>
+        <div class="kv"><span>${t('Saved')}</span><span style="color:${saved>0?'var(--ok)':'var(--warn)'}">${saved.toFixed(1)}%</span></div>
+        <div class="kv"><span>${t('Format')}</span><span>${ext.toUpperCase()}</span></div>`;
       $download.disabled = false;
       $preview.src = URL.createObjectURL(r.blob);
     }catch(e){
-      $result.innerHTML = `<span style="color:var(--err)">${e.message}</span>`;
+      // 抛出来的 message 就是 i18n 的 key
+      $result.innerHTML = `<span style="color:var(--err)">${t(e.message)}</span>`;
     }finally{
       $run.disabled = false;
-      $run.textContent = 'Compress';
+      $run.textContent = t('Compress');
     }
   });
 

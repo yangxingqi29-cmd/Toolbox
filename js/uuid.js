@@ -52,7 +52,8 @@ function formatUuid(u, opts){
 
   $copyAll.addEventListener('click', ()=>{
     navigator.clipboard.writeText(last.join('\n')).then(()=>{
-      $copyAll.textContent='Copied!'; setTimeout(()=>$copyAll.textContent='Copy all',1200);
+      $copyAll.textContent = t('Copied!');
+      setTimeout(()=>$copyAll.textContent = t('Copy all'), 1200);
     });
   });
 

@@ -70,7 +70,7 @@ function highlight(text, matches){
     const r = findMatches($pattern.value, flags, $text.value);
 
     if (!r.ok){
-      $status.textContent = 'Invalid regex: ' + r.error;
+      $status.textContent = t('Invalid regex: {msg}', { msg: r.error });
       $status.style.color = 'var(--err)';
       $result.innerHTML = '<span class="muted">—</span>';
       $groups.innerHTML = '';
@@ -78,21 +78,27 @@ function highlight(text, matches){
       return;
     }
 
-    $status.textContent = r.matches.length + ' match' + (r.matches.length===1?'':'es') +
-                          (flags ? ' · flags: ' + flags : '');
+    const n = r.matches.length;
+    const count = t(n === 1 ? '{n} match' : '{n} matches', { n: n });
+    $status.textContent = flags ? t('{n} · flags: {f}', { n: count, f: flags }) : count;
     $status.style.color = 'var(--ok)';
 
-    $result.innerHTML = highlight($text.value, r.matches) || '<span class="muted">No text</span>';
+    $result.innerHTML = highlight($text.value, r.matches) ||
+                        '<span class="muted">' + t('No text') + '</span>';
 
     if (r.matches.length){
       $groups.innerHTML = r.matches.slice(0, 50).map((m,i)=>{
         let g = m.groups.length
-          ? m.groups.map((v,j)=>`<span class="muted">$${j+1}</span> ${v===undefined?'<i>undefined</i>':esc(v)}`).join(' &nbsp;·&nbsp; ')
-          : '<span class="muted">no groups</span>';
+          ? m.groups.map((v,j)=>`<span class="muted">$${j+1}</span> ` +
+              (v === undefined ? '<i>' + t('undefined') + '</i>' : esc(v)))
+              .join(' &nbsp;·&nbsp; ')
+          : '<span class="muted">' + t('no groups') + '</span>';
         return `<div class="kv"><span>#${i+1} @${m.index}</span><span style="text-align:right">${g}</span></div>`;
-      }).join('') + (r.matches.length > 50 ? `<div class="hint">…and ${r.matches.length-50} more</div>` : '');
+      }).join('') + (r.matches.length > 50
+          ? `<div class="hint">${t('…and {n} more', { n: r.matches.length - 50 })}</div>`
+          : '');
     } else {
-      $groups.innerHTML = '<span class="muted">No matches</span>';
+      $groups.innerHTML = '<span class="muted">' + t('No matches') + '</span>';
     }
 
     // 替换预览

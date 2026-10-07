@@ -32,10 +32,12 @@ function fmtUTC(d){
 function fmtISO(d){ return d.toISOString(); }
 function fmtRFC(d){ return d.toUTCString(); }
 
-function relative(d){
+// 相对时间只算出「数值 + 单位」，文案交给 Intl.RelativeTimeFormat。
+// 这样中文的「3 天前」、西语的「hace 3 días」、俄语的「3 дня назад」全都自动正确，
+// 也不用为俄语的 1 год / 2 года / 5 лет 写复数规则。
+function relativeParts(d){
   const diff = Date.now() - d.getTime();
   const abs = Math.abs(diff);
-  const future = diff < 0;
   const u = [
     ['year',   31536000000],
     ['month',  2592000000],
@@ -44,13 +46,10 @@ function relative(d){
     ['minute', 60000],
     ['second', 1000]
   ];
-  for (const [name, ms] of u){
-    if (abs >= ms){
-      const n = Math.floor(abs / ms);
-      return (future ? 'in ' : '') + n + ' ' + name + (n>1?'s':'') + (future ? '' : ' ago');
-    }
+  for (const [unit, ms] of u){
+    if (abs >= ms) return { value: -Math.floor(diff / ms), unit };
   }
-  return 'just now';
+  return null;
 }
 
 // ---- 页面绑定 ----
@@ -64,28 +63,33 @@ function relative(d){
   const $tsOut = document.getElementById('tsOut');
   if (!$ts) return;
 
+  function relativeStr(d){
+    const p = relativeParts(d);
+    return p ? tRelative(p.value, p.unit) : t('just now');
+  }
+
   function renderFromTs(){
     const r = parseTimestamp($ts.value);
-    if (!r){ $out.innerHTML = '<span class="muted">Enter a valid number</span>'; return; }
+    if (!r){ $out.innerHTML = '<span class="muted">' + t('Enter a valid number') + '</span>'; return; }
     const d = r.date;
     $out.innerHTML = `
-      <div class="kv"><span>Detected</span><span>${r.unit === 's' ? 'seconds' : 'milliseconds'}</span></div>
-      <div class="kv"><span>Local</span><span>${fmtLocal(d)}</span></div>
-      <div class="kv"><span>UTC</span><span>${fmtUTC(d)}</span></div>
-      <div class="kv"><span>ISO 8601</span><span>${fmtISO(d)}</span></div>
-      <div class="kv"><span>RFC 2822</span><span>${fmtRFC(d)}</span></div>
-      <div class="kv"><span>Relative</span><span>${relative(d)}</span></div>`;
+      <div class="kv"><span>${t('Detected')}</span><span>${t(r.unit === 's' ? 'seconds' : 'milliseconds')}</span></div>
+      <div class="kv"><span>${t('Local')}</span><span>${fmtLocal(d)}</span></div>
+      <div class="kv"><span>${t('UTC')}</span><span>${fmtUTC(d)}</span></div>
+      <div class="kv"><span>${t('ISO 8601')}</span><span>${fmtISO(d)}</span></div>
+      <div class="kv"><span>${t('RFC 2822')}</span><span>${fmtRFC(d)}</span></div>
+      <div class="kv"><span>${t('Relative')}</span><span>${relativeStr(d)}</span></div>`;
   }
 
   function renderToTs(){
     const v = $date.value;
     if (!v){ $tsOut.textContent = '—'; return; }
     const d = new Date(v);
-    if (isNaN(d.getTime())){ $tsOut.textContent = 'Invalid date'; return; }
+    if (isNaN(d.getTime())){ $tsOut.textContent = t('Invalid date'); return; }
     const s = Math.floor(d.getTime() / 1000);
     const ms = d.getTime();
-    $tsOut.innerHTML = `<div class="kv"><span>Seconds</span><span>${s}</span></div>
-                        <div class="kv"><span>Milliseconds</span><span>${ms}</span></div>`;
+    $tsOut.innerHTML = `<div class="kv"><span>${t('Seconds')}</span><span>${s}</span></div>
+                        <div class="kv"><span>${t('Milliseconds')}</span><span>${ms}</span></div>`;
   }
 
   $ts.addEventListener('input', renderFromTs);

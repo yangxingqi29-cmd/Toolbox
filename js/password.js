@@ -101,7 +101,8 @@ function strength(pwd, poolSize){
     const st = strength(pwd, size);
     $bar.style.width = st.pct + '%';
     $bar.style.background = st.color;
-    $txt.textContent = `${st.label} · ~${st.bits} bits of entropy`;
+    // st.label 本身就是英文 key（Weak / Fair / Strong / Very strong），直接查表
+    $txt.textContent = t('{label} · ~{bits} bits of entropy', { label: t(st.label), bits: st.bits });
   }
 
   $len.addEventListener('input', ()=>{ $lenVal.textContent = $len.value; run(); });
@@ -112,8 +113,8 @@ function strength(pwd, poolSize){
 
   $copy.addEventListener('click', ()=>{
     navigator.clipboard.writeText($pwd.textContent).then(()=>{
-      $copy.textContent = 'Copied!';
-      setTimeout(()=>$copy.textContent='Copy', 1200);
+      $copy.textContent = t('Copied!');
+      setTimeout(()=>$copy.textContent = t('Copy'), 1200);
     });
   });
 

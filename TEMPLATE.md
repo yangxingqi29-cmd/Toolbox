@@ -64,6 +64,45 @@ cp js/base64.js js/my-tool.js
 
 顺手把 `tools/my-tool.html` 加进 `sitemap.xml`。
 
+## Step 5 — 让文案支持多语言
+
+新页面里的静态文案**不用手写 `data-i18n`**，跑一下标记脚本就行：
+
+```bash
+node scripts/i18n-tag.js
+```
+
+它会自动给"只含文本"的元素加上 `data-i18n="英文原文"`，把面包屑拆成独立 span，
+并给 `placeholder` / `meta description` 加上对应属性。**幂等，重复跑不会叠加。**
+
+然后补词典：
+
+```bash
+node scripts/i18n-check.js     # 列出所有缺翻译的 key
+```
+
+把列出来的 key 补进 `js/i18n.js` 的 `I18N.zh` / `I18N.es` / `I18N.ru` 三份，
+再跑一次直到 `缺失翻译：0 条`。
+
+**JS 里拼出来的动态文案**要手动改成 `t()`：
+
+```js
+// 之前
+$status.textContent = 'Merged ' + n + ' files → ' + p + ' pages';
+
+// 之后
+$status.textContent = t('Merged {n} files → {p} pages', { n, p });
+```
+
+几条踩过的坑：
+
+- **纯逻辑段（分隔线以上）里不要调 `t()`**，`test.js` 会在 Node 里 eval 那段，
+  没有 `t`。让纯函数返回"错误 code + 参数"，由绑定段翻译 —— 见 `json-formatter.js`。
+- **局部变量别叫 `t`**，会盖住 i18n 的 `t()`。`word-counter.js` 原来有个 `const t = $in.value`，已改名。
+- `<textarea>` 的内容是**默认值**不是文案，脚本会整块跳过 —— 往里面包 `<span>` 会变成字面文本。
+- 品牌 logo（`Tool<span>box</span>`）里的 "Tool"/"box" 是拆开做样式的，脚本也会跳过。
+- 能交给 `Intl` 的就别进词典（货币名、相对时间、星期名、数字格式），见 README。
+
 ---
 
 ## 现有工具的「骨架」对照
@@ -110,6 +149,15 @@ console.log('[my-tool]');
 
 ```bash
 node test.js
+```
+
+如果新工具用了单位名之类的数组翻译，记得同步 `I18N.xx.units`——
+`test.js` 里有一条断言专门比对数组长度和 `UNITS` 表是否对齐。
+
+最后跑一遍全站冒烟（18 个页面 × 4 种语言，真执行 JS）：
+
+```bash
+node scripts/smoke.js
 ```
 
 ---

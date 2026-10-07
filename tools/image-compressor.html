@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Image Compressor — Reduce JPG, PNG, WebP Size Online</title>
-<meta name="description" content="Free online image compressor. Shrink JPG, PNG and WebP files, resize and convert format. Nothing is uploaded — all processing happens in your browser.">
+<title data-i18n="Image Compressor — Reduce JPG, PNG, WebP Size Online">Image Compressor — Reduce JPG, PNG, WebP Size Online</title>
+<meta name="description" content="Free online image compressor. Shrink JPG, PNG and WebP files, resize and convert format. Nothing is uploaded — all processing happens in your browser." data-i18n-content="Free online image compressor. Shrink JPG, PNG and WebP files, resize and convert format. Nothing is uploaded — all processing happens in your browser.">
 <link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
 </head>
 <body>
 
@@ -20,66 +21,66 @@
 <main>
   <div class="wrap">
 
-    <div class="breadcrumb"><a href="../index.html">Home</a> / Image Compressor</div>
+    <div class="breadcrumb"><a href="../index.html" data-i18n="Home">Home</a> <span>/</span> <span data-i18n="Image Compressor">Image Compressor</span></div>
 
     <div class="tool-head">
-      <h1>Image Compressor</h1>
-      <p>Shrink and resize images without uploading them anywhere. Everything stays on your device.</p>
+      <h1 data-i18n="Image Compressor">Image Compressor</h1>
+      <p data-i18n="Shrink and resize images without uploading them anywhere. Everything stays on your device.">Shrink and resize images without uploading them anywhere. Everything stays on your device.</p>
     </div>
 
-    <div class="ad-slot leaderboard" data-ad="img-top">Ad slot — 728x90 / responsive</div>
+    <div class="ad-slot leaderboard" data-ad="img-top" data-i18n="Ad slot — 728x90 / responsive">Ad slot — 728x90 / responsive</div>
 
     <div class="panel">
       <div id="drop" style="border:2px dashed var(--line);border-radius:var(--radius);padding:34px;text-align:center;cursor:pointer;transition:border-color .15s">
         <div style="font-size:30px;margin-bottom:8px">&#128247;</div>
-        <div><b>Drop an image here</b> or click to choose</div>
-        <div class="muted" style="margin-top:6px">JPG · PNG · WebP · GIF (first frame)</div>
+        <div><b data-i18n="Drop an image here">Drop an image here</b> <span data-i18n="or click to choose">or click to choose</span></div>
+        <div class="muted" style="margin-top:6px" data-i18n="JPG · PNG · WebP · GIF (first frame)">JPG · PNG · WebP · GIF (first frame)</div>
         <input type="file" id="file" accept="image/*" style="display:none">
       </div>
 
       <div style="margin-top:18px">
         <div class="grid-2">
           <div class="field">
-            <label for="quality">Quality: <b id="qualityVal">80%</b></label>
+            <label for="quality"><span data-i18n="Quality:">Quality:</span> <b id="qualityVal">80%</b></label>
             <input type="range" id="quality" min="0.1" max="1" step="0.05" value="0.8">
           </div>
           <div class="field">
-            <label for="maxw">Max width (px)</label>
+            <label for="maxw" data-i18n="Max width (px)">Max width (px)</label>
             <input type="number" id="maxw" value="1920" min="16" step="16">
           </div>
         </div>
         <div class="field">
-          <label for="format">Output format</label>
+          <label for="format" data-i18n="Output format">Output format</label>
           <select id="format">
-            <option value="image/jpeg" selected>JPEG — smallest, no transparency</option>
-            <option value="image/webp">WebP — smaller, modern browsers</option>
-            <option value="image/png">PNG — lossless, keeps transparency</option>
+            <option value="image/jpeg" selected data-i18n="JPEG — smallest, no transparency">JPEG — smallest, no transparency</option>
+            <option value="image/webp" data-i18n="WebP — smaller, modern browsers">WebP — smaller, modern browsers</option>
+            <option value="image/png" data-i18n="PNG — lossless, keeps transparency">PNG — lossless, keeps transparency</option>
           </select>
         </div>
       </div>
 
       <div class="btn-row">
-        <button class="btn" id="run">Compress</button>
-        <button class="btn ghost" id="download" disabled>Download</button>
+        <button class="btn" id="run" data-i18n="Compress">Compress</button>
+        <button class="btn ghost" id="download" disabled data-i18n="Download">Download</button>
       </div>
     </div>
 
     <div class="panel">
       <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start">
         <img id="preview" style="display:none;max-width:220px;max-height:220px;border-radius:var(--radius-sm);border:1px solid var(--line)">
-        <div style="flex:1;min-width:240px" id="result"><span class="muted">Pick an image to begin</span></div>
+        <div style="flex:1;min-width:240px" id="result"><span class="muted" data-i18n="Pick an image to begin">Pick an image to begin</span></div>
       </div>
     </div>
 
-    <div class="ad-slot rect" data-ad="img-mid">Ad slot — 300x250</div>
+    <div class="ad-slot rect" data-ad="img-mid" data-i18n="Ad slot — 300x250">Ad slot — 300x250</div>
 
   </div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>&copy; 2026 Toolbox. Images never leave your browser.</span>
-    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+    <span data-i18n="© 2026 Toolbox. Images never leave your browser.">&copy; 2026 Toolbox. Images never leave your browser.</span>
+    <span><a href="../index.html" data-i18n="Home">Home</a> &middot; <a href="../privacy.html" data-i18n="Privacy">Privacy</a></span>
   </div>
 </footer>
 

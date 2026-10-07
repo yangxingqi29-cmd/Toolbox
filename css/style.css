@@ -221,6 +221,13 @@ footer.site a{color:var(--txt-dim)}
   color:var(--txt-dim);opacity:.6;pointer-events:none;
 }
 .nav-dd .menu .menu-h:first-child{padding-top:4px}
+.nav-dd .menu a.on{background:var(--card-hi);color:var(--txt);font-weight:600}
+.nav-lang > a{font-weight:600;letter-spacing:.02em}
+.nav-lang .menu{min-width:150px}
+
+/* 语言切换前先藏住页面，避免"先闪英文再变中文"。
+   i18n.js 在 applyI18n() 里摘掉这个属性，另有 2s 兜底超时。 */
+html[data-i18n-pending] body{visibility:hidden}
 
 /* ---------- 正则高亮 ---------- */
 mark.hl,mark.hl-alt{

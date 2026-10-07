@@ -95,7 +95,7 @@ function hslToRgb(h,s,l){
       const map = { hex: $hex, rgb: $rgb, hsl: $hsl };
       navigator.clipboard.writeText(map[which].value).then(()=>{
         const old = btn.textContent;
-        btn.textContent = 'Copied!';
+        btn.textContent = t('Copied!');
         setTimeout(()=>btn.textContent = old, 1000);
       });
     });

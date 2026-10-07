@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Color Converter — HEX, RGB, HSL</title>
-<meta name="description" content="Free color converter. Convert between HEX, RGB and HSL, with live preview. Instantly copy color codes.">
+<title data-i18n="Color Converter — HEX, RGB, HSL">Color Converter — HEX, RGB, HSL</title>
+<meta name="description" content="Free color converter. Convert between HEX, RGB and HSL, with live preview. Instantly copy color codes." data-i18n-content="Free color converter. Convert between HEX, RGB and HSL, with live preview. Instantly copy color codes.">
 <link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
 </head>
 <body>
 
@@ -20,57 +21,57 @@
 <main>
   <div class="wrap">
 
-    <div class="breadcrumb"><a href="../index.html">Home</a> / Color Converter</div>
+    <div class="breadcrumb"><a href="../index.html" data-i18n="Home">Home</a> <span>/</span> <span data-i18n="Color Converter">Color Converter</span></div>
 
     <div class="tool-head">
-      <h1>Color Converter</h1>
-      <p>Convert HEX &#8596; RGB &#8596; HSL with a live preview. Pick a color or type a value.</p>
+      <h1 data-i18n="Color Converter">Color Converter</h1>
+      <p data-i18n="Convert HEX ↔ RGB ↔ HSL with a live preview. Pick a color or type a value.">Convert HEX &#8596; RGB &#8596; HSL with a live preview. Pick a color or type a value.</p>
     </div>
 
-    <div class="ad-slot leaderboard" data-ad="color-top">Ad slot — 728x90 / responsive</div>
+    <div class="ad-slot leaderboard" data-ad="color-top" data-i18n="Ad slot — 728x90 / responsive">Ad slot — 728x90 / responsive</div>
 
     <div class="panel">
       <div class="grid-2" style="align-items:start">
         <div>
           <div class="field">
-            <label for="picker">Pick a color</label>
+            <label for="picker" data-i18n="Pick a color">Pick a color</label>
             <input type="color" id="picker" value="#4f8cff" style="height:48px;padding:4px">
           </div>
           <div class="swatch" id="swatch" style="background:#4f8cff"></div>
         </div>
         <div>
           <div class="field">
-            <label for="hex">HEX</label>
+            <label for="hex" data-i18n="HEX">HEX</label>
             <input id="hex" type="text" value="#4f8cff" spellcheck="false">
           </div>
           <div class="field">
-            <label for="rgb">RGB</label>
+            <label for="rgb" data-i18n="RGB">RGB</label>
             <input id="rgb" type="text" value="rgb(79, 140, 255)" spellcheck="false">
           </div>
           <div class="field">
-            <label for="hsl">HSL</label>
+            <label for="hsl" data-i18n="HSL">HSL</label>
             <input id="hsl" type="text" value="hsl(220, 100%, 65%)" spellcheck="false">
           </div>
         </div>
       </div>
 
       <div class="btn-row" style="margin-top:8px">
-        <button class="btn ghost sm" data-copy="hex">Copy HEX</button>
-        <button class="btn ghost sm" data-copy="rgb">Copy RGB</button>
-        <button class="btn ghost sm" data-copy="hsl">Copy HSL</button>
-        <button class="btn ghost sm" id="random">Random color</button>
+        <button class="btn ghost sm" data-copy="hex" data-i18n="Copy HEX">Copy HEX</button>
+        <button class="btn ghost sm" data-copy="rgb" data-i18n="Copy RGB">Copy RGB</button>
+        <button class="btn ghost sm" data-copy="hsl" data-i18n="Copy HSL">Copy HSL</button>
+        <button class="btn ghost sm" id="random" data-i18n="Random color">Random color</button>
       </div>
     </div>
 
-    <div class="ad-slot rect" data-ad="color-mid">Ad slot — 300x250</div>
+    <div class="ad-slot rect" data-ad="color-mid" data-i18n="Ad slot — 300x250">Ad slot — 300x250</div>
 
   </div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>&copy; 2026 Toolbox. All tools run locally in your browser.</span>
-    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+    <span data-i18n="© 2026 Toolbox. All tools run locally in your browser.">&copy; 2026 Toolbox. All tools run locally in your browser.</span>
+    <span><a href="../index.html" data-i18n="Home">Home</a> &middot; <a href="../privacy.html" data-i18n="Privacy">Privacy</a></span>
   </div>
 </footer>
 

@@ -44,8 +44,8 @@ function topWords(text, n){
 }
 
 function fmtTime(min){
-  if (min < 1) return Math.round(min*60) + ' sec';
-  return min.toFixed(1) + ' min';
+  if (min < 1) return t('{n} sec', { n: Math.round(min*60) });
+  return t('{n} min', { n: min.toFixed(1) });
 }
 
 // ---- 页面绑定 ----
@@ -57,34 +57,41 @@ function fmtTime(min){
   const $copy = document.getElementById('copy');
   if (!$in) return;
 
-  function render(){
-    const t = $in.value;
-    const s = analyze(t);
-    $stats.innerHTML = `
-      <div class="kv"><span>Words</span><span>${s.wordCount.toLocaleString()}</span></div>
-      <div class="kv"><span>Characters</span><span>${s.chars.toLocaleString()}</span></div>
-      <div class="kv"><span>Characters (no spaces)</span><span>${s.charsNoSpace.toLocaleString()}</span></div>
-      <div class="kv"><span>Letters</span><span>${s.letters.toLocaleString()}</span></div>
-      <div class="kv"><span>Digits</span><span>${s.digits.toLocaleString()}</span></div>
-      <div class="kv"><span>Sentences</span><span>${s.sentences.toLocaleString()}</span></div>
-      <div class="kv"><span>Paragraphs</span><span>${s.paragraphs.toLocaleString()}</span></div>
-      <div class="kv"><span>Lines</span><span>${s.lines.toLocaleString()}</span></div>
-      <div class="kv"><span>Reading time</span><span>${fmtTime(s.readingMin)}</span></div>
-      <div class="kv"><span>Speaking time</span><span>${fmtTime(s.speakingMin)}</span></div>`;
+  // 注意：这里不能把局部变量叫 t，会盖住 i18n 的 t()
+  const row = (label, value) =>
+    `<div class="kv"><span>${t(label)}</span><span>${value}</span></div>`;
+  const num = n => n.toLocaleString(i18nLocale());
 
-    const top = topWords(t, 10);
+  function render(){
+    const text = $in.value;
+    const s = analyze(text);
+    $stats.innerHTML =
+      row('Words', num(s.wordCount)) +
+      row('Characters', num(s.chars)) +
+      row('Characters (no spaces)', num(s.charsNoSpace)) +
+      row('Letters', num(s.letters)) +
+      row('Digits', num(s.digits)) +
+      row('Sentences', num(s.sentences)) +
+      row('Paragraphs', num(s.paragraphs)) +
+      row('Lines', num(s.lines)) +
+      row('Reading time', fmtTime(s.readingMin)) +
+      row('Speaking time', fmtTime(s.speakingMin));
+
+    const top = topWords(text, 10);
     $top.innerHTML = top.length
-      ? top.map(([w,c]) => `<div class="kv"><span>${w}</span><span>${c}</span></div>`).join('')
-      : '<span class="muted">No repeated words yet</span>';
+      ? top.map(([w,c]) => `<div class="kv"><span>${w}</span><span>${num(c)}</span></div>`).join('')
+      : '<span class="muted">' + t('No repeated words yet') + '</span>';
   }
 
   $in.addEventListener('input', render);
   $clear.addEventListener('click', ()=>{ $in.value=''; render(); $in.focus(); });
   $copy.addEventListener('click', ()=>{
     const s = analyze($in.value);
-    const txt = `Words: ${s.wordCount}\nCharacters: ${s.chars}\nCharacters (no spaces): ${s.charsNoSpace}\nSentences: ${s.sentences}\nParagraphs: ${s.paragraphs}`;
+    const txt = t('Words: {w}\nCharacters: {c}\nCharacters (no spaces): {cs}\nSentences: {s}\nParagraphs: {p}',
+                  { w: s.wordCount, c: s.chars, cs: s.charsNoSpace, s: s.sentences, p: s.paragraphs });
     navigator.clipboard.writeText(txt).then(()=>{
-      $copy.textContent='Copied!'; setTimeout(()=>$copy.textContent='Copy stats',1200);
+      $copy.textContent = t('Copied!');
+      setTimeout(()=>$copy.textContent = t('Copy stats'), 1200);
     });
   });
 

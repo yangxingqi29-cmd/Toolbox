@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Base64 Encoder / Decoder — Text & File</title>
-<meta name="description" content="Free Base64 encoder and decoder. Convert text or files to Base64 instantly in your browser. Supports URL-safe Base64 and Data URI output.">
+<title data-i18n="Base64 Encoder / Decoder — Text &amp; File">Base64 Encoder / Decoder — Text & File</title>
+<meta name="description" content="Free Base64 encoder and decoder. Convert text or files to Base64 instantly in your browser. Supports URL-safe Base64 and Data URI output." data-i18n-content="Free Base64 encoder and decoder. Convert text or files to Base64 instantly in your browser. Supports URL-safe Base64 and Data URI output.">
 <link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
 </head>
 <body>
 
@@ -20,40 +21,40 @@
 <main>
   <div class="wrap">
 
-    <div class="breadcrumb"><a href="../index.html">Home</a> / Base64 Encoder</div>
+    <div class="breadcrumb"><a href="../index.html" data-i18n="Home">Home</a> <span>/</span> <span data-i18n="Base64 Encoder">Base64 Encoder</span></div>
 
     <div class="tool-head">
-      <h1>Base64 Encoder / Decoder</h1>
-      <p>Encode or decode text and files. Everything happens locally — nothing is uploaded.</p>
+      <h1 data-i18n="Base64 Encoder / Decoder">Base64 Encoder / Decoder</h1>
+      <p data-i18n="Encode or decode text and files. Everything happens locally — nothing is uploaded.">Encode or decode text and files. Everything happens locally — nothing is uploaded.</p>
     </div>
 
-    <div class="ad-slot leaderboard" data-ad="b64-top">Ad slot — 728x90 / responsive</div>
+    <div class="ad-slot leaderboard" data-ad="b64-top" data-i18n="Ad slot — 728x90 / responsive">Ad slot — 728x90 / responsive</div>
 
     <div class="panel">
 
       <div class="field">
-        <label for="input">Input</label>
-        <textarea id="input" rows="6" placeholder="Type text to encode, or paste Base64 to decode…" spellcheck="false"></textarea>
+        <label for="input" data-i18n="Input">Input</label>
+        <textarea id="input" rows="6" placeholder="Type text to encode, or paste Base64 to decode…" data-i18n-ph="Type text to encode, or paste Base64 to decode…" spellcheck="false"></textarea>
       </div>
 
       <label class="chk" style="margin-bottom:14px">
-        <input type="checkbox" id="urlsafe"> URL-safe variant ( <code>-</code> <code>_</code> , no padding )
+        <input type="checkbox" id="urlsafe"> <span data-i18n="URL-safe variant (">URL-safe variant (</span> <code>-</code> <code>_</code> <span data-i18n=", no padding )">, no padding )</span>
       </label>
 
       <div class="btn-row" style="margin-bottom:16px">
-        <button class="btn" id="encode">Encode &#8594;</button>
-        <button class="btn" id="decode">&#8592; Decode</button>
-        <button class="btn ghost" id="swap">&#8646; Swap</button>
-        <button class="btn ghost sm" id="clear">Clear</button>
+        <button class="btn" id="encode" data-i18n="Encode →">Encode &#8594;</button>
+        <button class="btn" id="decode" data-i18n="← Decode">&#8592; Decode</button>
+        <button class="btn ghost" id="swap" data-i18n="⇆ Swap">&#8646; Swap</button>
+        <button class="btn ghost sm" id="clear" data-i18n="Clear">Clear</button>
       </div>
 
       <div class="field">
-        <label for="output">Output</label>
+        <label for="output" data-i18n="Output">Output</label>
         <textarea id="output" rows="6" spellcheck="false" readonly></textarea>
       </div>
 
       <div class="btn-row" style="margin-bottom:14px">
-        <button class="btn ghost sm" id="copy">Copy result</button>
+        <button class="btn ghost sm" id="copy" data-i18n="Copy result">Copy result</button>
       </div>
 
       <div class="hint" id="status"></div>
@@ -61,21 +62,21 @@
     </div>
 
     <div class="panel">
-      <h2 style="font-size:17px">File &#8594; Base64</h2>
-      <p class="muted" style="margin-bottom:14px">Pick a file to get its Base64 / Data URI. Handy for embedding images in CSS or HTML.</p>
+      <h2 style="font-size:17px" data-i18n="File → Base64">File &#8594; Base64</h2>
+      <p class="muted" style="margin-bottom:14px" data-i18n="Pick a file to get its Base64 / Data URI. Handy for embedding images in CSS or HTML.">Pick a file to get its Base64 / Data URI. Handy for embedding images in CSS or HTML.</p>
       <input type="file" id="file">
       <div class="hint" id="fileInfo"></div>
     </div>
 
-    <div class="ad-slot rect" data-ad="b64-mid">Ad slot — 300x250</div>
+    <div class="ad-slot rect" data-ad="b64-mid" data-i18n="Ad slot — 300x250">Ad slot — 300x250</div>
 
   </div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>&copy; 2026 Toolbox. All tools run locally in your browser.</span>
-    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+    <span data-i18n="© 2026 Toolbox. All tools run locally in your browser.">&copy; 2026 Toolbox. All tools run locally in your browser.</span>
+    <span><a href="../index.html" data-i18n="Home">Home</a> &middot; <a href="../privacy.html" data-i18n="Privacy">Privacy</a></span>
   </div>
 </footer>
 

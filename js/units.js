@@ -158,13 +158,20 @@ function fmt(n){
   const $copy = document.getElementById('copy');
   if (!$cat) return;
 
+  // 单位显示名走 i18n：按该类别里单位的序号取翻译，取不到就用英文原名
+  function unitName(catKey, k){
+    const cat = UNITS[catKey];
+    const idx = Object.keys(cat.units).indexOf(k);
+    return tUnit(catKey, idx, cat.units[k][0]);
+  }
+
   function fillUnits(){
     const cat = UNITS[$cat.value];
     const keys = Object.keys(cat.units);
     $from.innerHTML = '';
     $to.innerHTML = '';
     keys.forEach(k=>{
-      const name = cat.units[k][0];
+      const name = unitName($cat.value, k);
       $from.appendChild(new Option(name, k));
       $to.appendChild(new Option(name, k));
     });
@@ -177,8 +184,8 @@ function fmt(n){
     const v = parseFloat($val.value);
     if (isNaN(v)){ $res.textContent = '—'; $fml.textContent=''; return; }
     const out = convert(v, $cat.value, $from.value, $to.value);
-    const fromName = UNITS[$cat.value].units[$from.value][0];
-    const toName   = UNITS[$cat.value].units[$to.value][0];
+    const fromName = unitName($cat.value, $from.value);
+    const toName   = unitName($cat.value, $to.value);
     $res.textContent = fmt(out);
     $res.classList.remove('err');
     $fml.textContent = `${fmt(v)} ${fromName} = ${fmt(out)} ${toName}`;
@@ -200,8 +207,8 @@ function fmt(n){
 
   $copy.addEventListener('click', ()=>{
     navigator.clipboard.writeText($res.textContent).then(()=>{
-      $copy.textContent = 'Copied!';
-      setTimeout(()=>$copy.textContent='Copy result', 1200);
+      $copy.textContent = t('Copied!');
+      setTimeout(()=>$copy.textContent = t('Copy result'), 1200);
     });
   });
 

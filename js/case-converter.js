@@ -46,6 +46,8 @@ function convert(str, style){
   const $clear = document.getElementById('clear');
   if (!$in) return;
 
+  // 注意：camelCase / snake_case / CONSTANT_CASE 这些是代码里的标识符写法，
+  // 本身就是英文，翻译反而会让人看不懂，所以只有 Title Case / Sentence case 走 t()。
   const STYLES = [
     ['upper','UPPERCASE'], ['lower','lowercase'], ['title','Title Case'],
     ['sentence','Sentence case'], ['camel','camelCase'], ['pascal','PascalCase'],
@@ -60,8 +62,8 @@ function convert(str, style){
       const esc = out.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       return `<div class="panel" style="padding:14px;margin:0">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span class="muted" style="font-size:12.5px">${label}</span>
-          <button class="btn ghost sm" data-copy="${key}">Copy</button>
+          <span class="muted" style="font-size:12.5px">${t(label)}</span>
+          <button class="btn ghost sm" data-copy="${key}">${t('Copy')}</button>
         </div>
         <div class="out" style="min-height:40px">${esc || '<span class="muted">—</span>'}</div>
       </div>`;
@@ -70,7 +72,8 @@ function convert(str, style){
     $grid.querySelectorAll('[data-copy]').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         navigator.clipboard.writeText(convert($in.value, btn.dataset.copy)).then(()=>{
-          btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy',1000);
+          btn.textContent = t('Copied!');
+          setTimeout(()=>btn.textContent = t('Copy'), 1000);
         });
       });
     });

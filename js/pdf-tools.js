@@ -54,7 +54,12 @@ async function extractPages(file, rangeStr){
   const doc = await readPdf(file);
   const total = doc.getPageCount();
   const idx = parseRange(rangeStr, total);
-  if (!idx.length) throw new Error(`No valid pages. This PDF has ${total} pages.`);
+  if (!idx.length){
+    // message 就是 i18n 的 key，参数挂在 i18nArgs 上，由页面层翻译
+    const err = new Error('No valid pages. This PDF has {n} pages.');
+    err.i18nArgs = { n: total };
+    throw err;
+  }
   const out = await lib().PDFDocument.create();
   const copied = await out.copyPages(doc, idx);
   copied.forEach(p => out.addPage(p));
@@ -82,7 +87,10 @@ async function extractPages(file, rangeStr){
   }
 
   function renderList(){
-    if (!mergeFiles.length){ $mergeList.innerHTML = '<span class="muted">No files selected</span>'; return; }
+    if (!mergeFiles.length){
+      $mergeList.innerHTML = '<span class="muted">' + t('No files selected') + '</span>';
+      return;
+    }
     $mergeList.innerHTML = mergeFiles.map((f,i)=>
       `<div class="kv"><span>${i+1}. ${f.name}</span><span>${humanSize(f.size)} <button class="btn ghost sm" data-rm="${i}" style="margin-left:8px">×</button></span></div>`
     ).join('');
@@ -113,25 +121,29 @@ async function extractPages(file, rangeStr){
   }
 
   $mergeBtn.addEventListener('click', async ()=>{
-    if (mergeFiles.length < 2){ status('Select at least 2 PDF files', 'err'); return; }
-    $mergeBtn.disabled = true; $mergeBtn.textContent = 'Merging…';
+    if (mergeFiles.length < 2){ status(t('Select at least 2 PDF files'), 'err'); return; }
+    $mergeBtn.disabled = true; $mergeBtn.textContent = t('Merging…');
     try{
       const r = await mergePdfs(mergeFiles);
       download(r.bytes, 'merged.pdf');
-      status(`Merged ${mergeFiles.length} files → ${r.pages} pages · ${humanSize(r.bytes.byteLength)}`, 'ok');
-    }catch(e){ status('Merge failed: ' + e.message, 'err'); }
-    finally{ $mergeBtn.disabled = false; $mergeBtn.textContent = 'Merge PDFs'; }
+      status(t('Merged {n} files → {p} pages · {size}',
+               { n: mergeFiles.length, p: r.pages, size: humanSize(r.bytes.byteLength) }), 'ok');
+    }catch(e){ status(t('Merge failed: {msg}', { msg: e.message }), 'err'); }
+    finally{ $mergeBtn.disabled = false; $mergeBtn.textContent = t('Merge PDFs'); }
   });
 
   $splitBtn.addEventListener('click', async ()=>{
     const f = $splitInput.files[0];
-    if (!f){ status('Select a PDF to split', 'err'); return; }
-    $splitBtn.disabled = true; $splitBtn.textContent = 'Extracting…';
+    if (!f){ status(t('Select a PDF to split'), 'err'); return; }
+    $splitBtn.disabled = true; $splitBtn.textContent = t('Extracting…');
     try{
       const r = await extractPages(f, $splitRange.value || '1');
       download(r.bytes, 'extracted.pdf');
-      status(`Extracted ${r.pages} of ${r.total} pages · ${humanSize(r.bytes.byteLength)}`, 'ok');
-    }catch(e){ status('Split failed: ' + e.message, 'err'); }
-    finally{ $splitBtn.disabled = false; $splitBtn.textContent = 'Extract pages'; }
+      status(t('Extracted {n} of {t} pages · {size}',
+               { n: r.pages, t: r.total, size: humanSize(r.bytes.byteLength) }), 'ok');
+    }catch(e){
+      status(t('Split failed: {msg}', { msg: t(e.message, e.i18nArgs) }), 'err');
+    }
+    finally{ $splitBtn.disabled = false; $splitBtn.textContent = t('Extract pages'); }
   });
 })();

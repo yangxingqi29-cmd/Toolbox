@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Currency Converter — Live Exchange Rates</title>
-<meta name="description" content="Free online currency converter with live exchange rates. Convert between USD, EUR, GBP, JPY, CNY and 30+ currencies.">
+<title data-i18n="Currency Converter — Live Exchange Rates">Currency Converter — Live Exchange Rates</title>
+<meta name="description" content="Free online currency converter with live exchange rates. Convert between USD, EUR, GBP, JPY, CNY and 30+ currencies." data-i18n-content="Free online currency converter with live exchange rates. Convert between USD, EUR, GBP, JPY, CNY and 30+ currencies.">
 <link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
 </head>
 <body>
 
@@ -20,47 +21,47 @@
 <main>
   <div class="wrap">
 
-    <div class="breadcrumb"><a href="../index.html">Home</a> / Currency Converter</div>
+    <div class="breadcrumb"><a href="../index.html" data-i18n="Home">Home</a> <span>/</span> <span data-i18n="Currency Converter">Currency Converter</span></div>
 
     <div class="tool-head">
-      <h1>Currency Converter</h1>
-      <p>Convert between 30+ currencies using live exchange rates.</p>
+      <h1 data-i18n="Currency Converter">Currency Converter</h1>
+      <p data-i18n="Convert between 30+ currencies using live exchange rates.">Convert between 30+ currencies using live exchange rates.</p>
     </div>
 
-    <div class="ad-slot leaderboard" data-ad="fx-top">Ad slot — 728x90 / responsive</div>
+    <div class="ad-slot leaderboard" data-ad="fx-top" data-i18n="Ad slot — 728x90 / responsive">Ad slot — 728x90 / responsive</div>
 
     <div class="panel">
 
       <div class="row">
         <div class="field">
-          <label for="amount">Amount</label>
+          <label for="amount" data-i18n="Amount">Amount</label>
           <input id="amount" type="number" value="100" step="any" inputmode="decimal">
         </div>
         <div class="field">
-          <label for="from">From</label>
+          <label for="from" data-i18n="From">From</label>
           <select id="from"></select>
         </div>
       </div>
 
       <div class="field">
-        <label for="to">To</label>
+        <label for="to" data-i18n="To">To</label>
         <select id="to"></select>
       </div>
 
       <div class="btn-row" style="margin-bottom:16px">
-        <button class="btn" id="swap">&#8646; Swap</button>
-        <button class="btn ghost sm" id="refresh">Refresh rates</button>
+        <button class="btn" id="swap" data-i18n="⇆ Swap">&#8646; Swap</button>
+        <button class="btn ghost sm" id="refresh" data-i18n="Refresh rates">Refresh rates</button>
       </div>
 
       <div class="out lg" id="result">—</div>
-      <div class="hint" id="rate">Fetching live rates…</div>
+      <div class="hint" id="rate" data-i18n="Fetching live rates…">Fetching live rates…</div>
 
     </div>
 
-    <div class="ad-slot rect" data-ad="fx-mid">Ad slot — 300x250</div>
+    <div class="ad-slot rect" data-ad="fx-mid" data-i18n="Ad slot — 300x250">Ad slot — 300x250</div>
 
     <section class="panel">
-      <h2>Popular conversions</h2>
+      <h2 data-i18n="Popular conversions">Popular conversions</h2>
       <div id="popular" class="grid-2"></div>
     </section>
 
@@ -69,8 +70,8 @@
 
 <footer class="site">
   <div class="wrap">
-    <span>&copy; 2026 Toolbox. Rates from open exchange-rate API.</span>
-    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+    <span data-i18n="© 2026 Toolbox. Rates from open exchange-rate API.">&copy; 2026 Toolbox. Rates from open exchange-rate API.</span>
+    <span><a href="../index.html" data-i18n="Home">Home</a> &middot; <a href="../privacy.html" data-i18n="Privacy">Privacy</a></span>
   </div>
 </footer>
 

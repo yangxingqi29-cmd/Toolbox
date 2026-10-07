@@ -38,14 +38,15 @@ async function loadRates(){
       RATES = j.rates;
       ratesAreLive = true;
       document.getElementById('rate').textContent =
-        'Live rates · updated ' + new Date().toLocaleTimeString();
+        t('Live rates · updated {t}', { t: new Date().toLocaleTimeString(i18nLocale()) });
     }
   }catch(e){
     ratesAreLive = false;
-    document.getElementById('rate').textContent =
-      'Offline — using built-in fallback rates';
+    document.getElementById('rate').textContent = t('Offline — using built-in fallback rates');
   }
-  renderPopular();
+  // 注意：renderPopular() 定义在下面的 init() 里，属于局部作用域，
+  // 从全局的 loadRates() 里根本调不到（会 ReferenceError）。
+  // 所以这里只负责取汇率，渲染由 init() 在 then 里接着做。
 }
 
 // 100 单位 from → to
@@ -58,7 +59,8 @@ function convert(amount, from, to){
 
 function fmt(n){
   if (!isFinite(n)) return '—';
-  return n.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2});
+  // 用当前语言的数字格式（俄语/西语的小数分隔符和分组方式与英文不同）
+  return n.toLocaleString(i18nLocale(),{minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
 // ---- 页面绑定 ----
@@ -71,8 +73,9 @@ function fmt(n){
   const $refresh = document.getElementById('refresh');
   if (!$amount) return;
 
+  // 货币全名走 Intl.DisplayNames，不用维护 31×4 条词典
   Object.keys(CURRENCIES).forEach(code=>{
-    const label = `${code} — ${CURRENCIES[code]}`;
+    const label = `${code} — ${tCurrency(code)}`;
     $from.appendChild(new Option(label, code));
     $to.appendChild(new Option(label, code));
   });
@@ -87,7 +90,7 @@ function fmt(n){
     if (ratesAreLive){
       const unit = convert(1, $from.value, $to.value);
       document.getElementById('rate').textContent =
-        `1 ${$from.value} = ${fmt(unit)} ${$to.value} · live rates`;
+        t('1 {a} = {b} {c} · live rates', { a: $from.value, b: fmt(unit), c: $to.value });
     }
   }
 
@@ -112,10 +115,14 @@ function fmt(n){
     const a = $from.value; $from.value = $to.value; $to.value = a; render();
   });
 
+  function reload(){
+    loadRates().then(()=>{ render(); renderPopular(); });
+  }
+
   $refresh.addEventListener('click', ()=>{
-    document.getElementById('rate').textContent = 'Refreshing…';
-    loadRates().then(render);
+    document.getElementById('rate').textContent = t('Refreshing…');
+    reload();
   });
 
-  loadRates().then(render);
+  reload();
 })();

@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UUID Generator — Random v4 UUIDs</title>
-<meta name="description" content="Free UUID v4 generator. Create one or thousands of random UUIDs, with uppercase, no-dash and brace formats. Runs in your browser.">
+<title data-i18n="UUID Generator — Random v4 UUIDs">UUID Generator — Random v4 UUIDs</title>
+<meta name="description" content="Free UUID v4 generator. Create one or thousands of random UUIDs, with uppercase, no-dash and brace formats. Runs in your browser." data-i18n-content="Free UUID v4 generator. Create one or thousands of random UUIDs, with uppercase, no-dash and brace formats. Runs in your browser.">
 <link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
 </head>
 <body>
 
@@ -20,49 +21,49 @@
 <main>
   <div class="wrap">
 
-    <div class="breadcrumb"><a href="../index.html">Home</a> / UUID Generator</div>
+    <div class="breadcrumb"><a href="../index.html" data-i18n="Home">Home</a> <span>/</span> <span data-i18n="UUID Generator">UUID Generator</span></div>
 
     <div class="tool-head">
-      <h1>UUID Generator</h1>
-      <p>Generate cryptographically random UUID v4 values, one at a time or in bulk.</p>
+      <h1 data-i18n="UUID Generator">UUID Generator</h1>
+      <p data-i18n="Generate cryptographically random UUID v4 values, one at a time or in bulk.">Generate cryptographically random UUID v4 values, one at a time or in bulk.</p>
     </div>
 
-    <div class="ad-slot leaderboard" data-ad="uuid-top">Ad slot — 728x90 / responsive</div>
+    <div class="ad-slot leaderboard" data-ad="uuid-top" data-i18n="Ad slot — 728x90 / responsive">Ad slot — 728x90 / responsive</div>
 
     <div class="panel">
       <div class="grid-2" style="margin-bottom:14px">
         <div class="field" style="margin:0">
-          <label for="count">How many</label>
+          <label for="count" data-i18n="How many">How many</label>
           <input type="number" id="count" value="5" min="1" max="1000">
         </div>
         <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap">
-          <label class="chk" style="margin:0"><input type="checkbox" id="upper"> Uppercase</label>
-          <label class="chk" style="margin:0"><input type="checkbox" id="nodashes"> No dashes</label>
-          <label class="chk" style="margin:0"><input type="checkbox" id="braces"> Braces {}</label>
+          <label class="chk" style="margin:0"><input type="checkbox" id="upper"> <span data-i18n="Uppercase">Uppercase</span></label>
+          <label class="chk" style="margin:0"><input type="checkbox" id="nodashes"> <span data-i18n="No dashes">No dashes</span></label>
+          <label class="chk" style="margin:0"><input type="checkbox" id="braces"> <span data-i18n="Braces {}">Braces {}</span></label>
         </div>
       </div>
 
       <div class="btn-row" style="margin-bottom:16px">
-        <button class="btn" id="generate">&#8635; Generate</button>
-        <button class="btn ghost sm" id="copyAll">Copy all</button>
-        <button class="btn ghost sm" id="download">Download .txt</button>
+        <button class="btn" id="generate" data-i18n="↻ Generate">&#8635; Generate</button>
+        <button class="btn ghost sm" id="copyAll" data-i18n="Copy all">Copy all</button>
+        <button class="btn ghost sm" id="download" data-i18n="Download .txt">Download .txt</button>
       </div>
 
       <div class="field">
-        <label for="output">Result</label>
+        <label for="output" data-i18n="Result">Result</label>
         <textarea id="output" rows="12" readonly spellcheck="false" style="font-family:var(--mono)"></textarea>
       </div>
     </div>
 
-    <div class="ad-slot rect" data-ad="uuid-mid">Ad slot — 300x250</div>
+    <div class="ad-slot rect" data-ad="uuid-mid" data-i18n="Ad slot — 300x250">Ad slot — 300x250</div>
 
   </div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>&copy; 2026 Toolbox. Generated with Web Crypto.</span>
-    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+    <span data-i18n="© 2026 Toolbox. Generated with Web Crypto.">&copy; 2026 Toolbox. Generated with Web Crypto.</span>
+    <span><a href="../index.html" data-i18n="Home">Home</a> &middot; <a href="../privacy.html" data-i18n="Privacy">Privacy</a></span>
   </div>
 </footer>
 

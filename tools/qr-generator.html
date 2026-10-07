@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>QR Code Generator — Text & URL to QR</title>
-<meta name="description" content="Free QR code generator. Turn any text or URL into a downloadable PNG QR code. Runs entirely in your browser.">
+<title data-i18n="QR Code Generator — Text &amp; URL to QR">QR Code Generator — Text & URL to QR</title>
+<meta name="description" content="Free QR code generator. Turn any text or URL into a downloadable PNG QR code. Runs entirely in your browser." data-i18n-content="Free QR code generator. Turn any text or URL into a downloadable PNG QR code. Runs entirely in your browser.">
 <link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
 </head>
 <body>
 
@@ -20,62 +21,62 @@
 <main>
   <div class="wrap">
 
-    <div class="breadcrumb"><a href="../index.html">Home</a> / QR Code Generator</div>
+    <div class="breadcrumb"><a href="../index.html" data-i18n="Home">Home</a> <span>/</span> <span data-i18n="QR Code Generator">QR Code Generator</span></div>
 
     <div class="tool-head">
-      <h1>QR Code Generator</h1>
-      <p>Type any text or URL and download it as a QR code image. Everything happens in your browser.</p>
+      <h1 data-i18n="QR Code Generator">QR Code Generator</h1>
+      <p data-i18n="Type any text or URL and download it as a QR code image. Everything happens in your browser.">Type any text or URL and download it as a QR code image. Everything happens in your browser.</p>
     </div>
 
-    <div class="ad-slot leaderboard" data-ad="qr-top">Ad slot — 728x90 / responsive</div>
+    <div class="ad-slot leaderboard" data-ad="qr-top" data-i18n="Ad slot — 728x90 / responsive">Ad slot — 728x90 / responsive</div>
 
     <div class="panel">
       <div class="row">
         <div style="flex:1">
           <div class="field">
-            <label for="text">Text or URL</label>
+            <label for="text" data-i18n="Text or URL">Text or URL</label>
             <textarea id="text" rows="4" placeholder="https://example.com">https://example.com</textarea>
           </div>
 
           <div class="grid-2">
             <div class="field">
-              <label for="size">Size: <b id="sizeVal">256</b> px</label>
+              <label for="size"><span data-i18n="Size:">Size:</span> <b id="sizeVal">256</b> <span data-i18n="px">px</span></label>
               <input type="range" id="size" min="128" max="768" step="64" value="256">
             </div>
             <div class="field">
-              <label for="ecc">Error correction</label>
+              <label for="ecc" data-i18n="Error correction">Error correction</label>
               <select id="ecc">
-                <option value="L">L — 7%</option>
-                <option value="M" selected>M — 15%</option>
-                <option value="Q">Q — 25%</option>
-                <option value="H">H — 30%</option>
+                <option value="L" data-i18n="L — 7%">L — 7%</option>
+                <option value="M" selected data-i18n="M — 15%">M — 15%</option>
+                <option value="Q" data-i18n="Q — 25%">Q — 25%</option>
+                <option value="H" data-i18n="H — 30%">H — 30%</option>
               </select>
             </div>
           </div>
 
           <div class="btn-row">
-            <button class="btn" id="make">Generate</button>
-            <button class="btn ghost" id="download">Download PNG</button>
+            <button class="btn" id="make" data-i18n="Generate">Generate</button>
+            <button class="btn ghost" id="download" data-i18n="Download PNG">Download PNG</button>
           </div>
         </div>
 
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
           <div id="qrbox" style="width:264px;height:264px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden">
-            <span class="muted" style="color:#666;font-size:13px">QR preview</span>
+            <span class="muted" style="color:#666;font-size:13px" data-i18n="QR preview">QR preview</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="ad-slot rect" data-ad="qr-mid">Ad slot — 300x250</div>
+    <div class="ad-slot rect" data-ad="qr-mid" data-i18n="Ad slot — 300x250">Ad slot — 300x250</div>
 
   </div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>&copy; 2026 Toolbox. QR encoding uses a compact built-in renderer.</span>
-    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+    <span data-i18n="© 2026 Toolbox. QR encoding uses a compact built-in renderer.">&copy; 2026 Toolbox. QR encoding uses a compact built-in renderer.</span>
+    <span><a href="../index.html" data-i18n="Home">Home</a> &middot; <a href="../privacy.html" data-i18n="Privacy">Privacy</a></span>
   </div>
 </footer>
 

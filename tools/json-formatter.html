@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JSON Formatter & Validator — Pretty Print, Minify</title>
-<meta name="description" content="Free online JSON formatter and validator. Pretty-print, minify, sort keys and check JSON syntax with line numbers. Runs in your browser.">
+<title data-i18n="JSON Formatter &amp; Validator — Pretty Print, Minify">JSON Formatter & Validator — Pretty Print, Minify</title>
+<meta name="description" content="Free online JSON formatter and validator. Pretty-print, minify, sort keys and check JSON syntax with line numbers. Runs in your browser." data-i18n-content="Free online JSON formatter and validator. Pretty-print, minify, sort keys and check JSON syntax with line numbers. Runs in your browser.">
 <link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
 </head>
 <body>
 
@@ -20,62 +21,62 @@
 <main>
   <div class="wrap">
 
-    <div class="breadcrumb"><a href="../index.html">Home</a> / JSON Formatter</div>
+    <div class="breadcrumb"><a href="../index.html" data-i18n="Home">Home</a> <span>/</span> <span data-i18n="JSON Formatter">JSON Formatter</span></div>
 
     <div class="tool-head">
-      <h1>JSON Formatter & Validator</h1>
-      <p>Pretty-print, minify and validate JSON. Errors are reported with line and column.</p>
+      <h1 data-i18n="JSON Formatter &amp; Validator">JSON Formatter & Validator</h1>
+      <p data-i18n="Pretty-print, minify and validate JSON. Errors are reported with line and column.">Pretty-print, minify and validate JSON. Errors are reported with line and column.</p>
     </div>
 
-    <div class="ad-slot leaderboard" data-ad="json-top">Ad slot — 728x90 / responsive</div>
+    <div class="ad-slot leaderboard" data-ad="json-top" data-i18n="Ad slot — 728x90 / responsive">Ad slot — 728x90 / responsive</div>
 
     <div class="panel">
       <div class="field">
-        <label for="input">JSON input</label>
+        <label for="input" data-i18n="JSON input">JSON input</label>
         <textarea id="input" rows="9" placeholder='{"hello":"world","items":[1,2,3]}' spellcheck="false"></textarea>
       </div>
 
       <div class="grid-2" style="margin-bottom:14px">
         <div class="field" style="margin:0">
-          <label for="indent">Indent</label>
+          <label for="indent" data-i18n="Indent">Indent</label>
           <select id="indent">
-            <option value="2" selected>2 spaces</option>
-            <option value="4">4 spaces</option>
-            <option value="1">1 space</option>
-            <option value="0">Tab-less (compact)</option>
+            <option value="2" selected data-i18n="2 spaces">2 spaces</option>
+            <option value="4" data-i18n="4 spaces">4 spaces</option>
+            <option value="1" data-i18n="1 space">1 space</option>
+            <option value="0" data-i18n="Tab-less (compact)">Tab-less (compact)</option>
           </select>
         </div>
         <div style="display:flex;align-items:flex-end">
           <label class="chk" style="margin:0">
-            <input type="checkbox" id="sortkeys"> Sort keys alphabetically
+            <input type="checkbox" id="sortkeys"> <span data-i18n="Sort keys alphabetically">Sort keys alphabetically</span>
           </label>
         </div>
       </div>
 
       <div class="btn-row" style="margin-bottom:16px">
-        <button class="btn" id="format">Format</button>
-        <button class="btn ghost" id="minify">Minify</button>
-        <button class="btn ghost sm" id="copy">Copy result</button>
-        <button class="btn ghost sm" id="clear">Clear</button>
+        <button class="btn" id="format" data-i18n="Format">Format</button>
+        <button class="btn ghost" id="minify" data-i18n="Minify">Minify</button>
+        <button class="btn ghost sm" id="copy" data-i18n="Copy result">Copy result</button>
+        <button class="btn ghost sm" id="clear" data-i18n="Clear">Clear</button>
       </div>
 
       <div class="field">
-        <label for="output">Output</label>
+        <label for="output" data-i18n="Output">Output</label>
         <textarea id="output" rows="9" spellcheck="false" readonly></textarea>
       </div>
 
       <div class="hint" id="status"></div>
     </div>
 
-    <div class="ad-slot rect" data-ad="json-mid">Ad slot — 300x250</div>
+    <div class="ad-slot rect" data-ad="json-mid" data-i18n="Ad slot — 300x250">Ad slot — 300x250</div>
 
   </div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>&copy; 2026 Toolbox. All tools run locally in your browser.</span>
-    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+    <span data-i18n="© 2026 Toolbox. All tools run locally in your browser.">&copy; 2026 Toolbox. All tools run locally in your browser.</span>
+    <span><a href="../index.html" data-i18n="Home">Home</a> &middot; <a href="../privacy.html" data-i18n="Privacy">Privacy</a></span>
   </div>
 </footer>
 

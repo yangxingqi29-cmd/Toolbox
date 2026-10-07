@@ -83,23 +83,23 @@ function humanSize(n){
     if (!v){ $out.value = ''; setStatus(''); return; }
     try{
       $out.value = encodeText(v, $url.checked);
-      setStatus(`Encoded ${v.length} chars → ${$out.value.length} chars`, 'ok');
-    }catch(e){ setStatus('Encode failed: ' + e.message, 'err'); }
+      setStatus(t('Encoded {a} chars → {b} chars', { a: v.length, b: $out.value.length }), 'ok');
+    }catch(e){ setStatus(t('Encode failed: {msg}', { msg: e.message }), 'err'); }
   }
 
   function doDecode(){
     const v = $in.value;
     if (!v){ $out.value = ''; setStatus(''); return; }
     if (!looksLikeBase64(v)){
-      setStatus('Input does not look like valid Base64', 'err');
+      setStatus(t('Input does not look like valid Base64'), 'err');
       $out.value = '';
       return;
     }
     try{
       $out.value = decodeText(v);
-      setStatus('Decoded OK', 'ok');
+      setStatus(t('Decoded OK'), 'ok');
     }catch(e){
-      setStatus('Decode failed: invalid Base64', 'err');
+      setStatus(t('Decode failed: invalid Base64'), 'err');
       $out.value = '';
     }
   }
@@ -121,8 +121,8 @@ function humanSize(n){
   $copy.addEventListener('click', ()=>{
     if (!$out.value) return;
     navigator.clipboard.writeText($out.value).then(()=>{
-      $copy.textContent = 'Copied!';
-      setTimeout(()=>$copy.textContent = 'Copy result', 1200);
+      $copy.textContent = t('Copied!');
+      setTimeout(()=>$copy.textContent = t('Copy result'), 1200);
     });
   });
 
@@ -134,8 +134,8 @@ function humanSize(n){
         const uri = await fileToDataURI(f);
         $out.value = uri;
         $fInfo.textContent = `${f.name} · ${humanSize(f.size)} → ${humanSize(uri.length)} (base64 +${Math.round((uri.length/f.size - 1)*100)}%)`;
-        setStatus('File encoded to Data URI', 'ok');
-      }catch(e){ setStatus('File read failed', 'err'); }
+        setStatus(t('File encoded to Data URI'), 'ok');
+      }catch(e){ setStatus(t('File read failed'), 'err'); }
     });
   }
 

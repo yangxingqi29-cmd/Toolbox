@@ -53,8 +53,22 @@ function daysInMonth(y, m){ return [31, isLeap(y)?29:28,31,30,31,30,31,31,30,31,
   const $ageOut = document.getElementById('ageOut');
   if (!$diff) return;
 
+  const kv = (label, value) =>
+    `<div class="kv"><span>${t(label)}</span><span>${value}</span></div>`;
+  const num = n => Number(n).toLocaleString(i18nLocale());
+  const empty = key => '<span class="muted">' + t(key) + '</span>';
+  const iso = d => d.getFullYear() + '-' +
+                   String(d.getMonth() + 1).padStart(2,'0') + '-' +
+                   String(d.getDate()).padStart(2,'0');
+
+  // 星期名交给 Intl，各语言的大小写和拼写自动正确
+  function weekdayName(d){
+    try { return new Intl.DateTimeFormat(i18nLocale(), { weekday: 'long' }).format(d); }
+    catch(e){ return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][d.getDay()]; }
+  }
+
   function renderDiff(){
-    if (!$a.value || !$b.value){ $diff.innerHTML = '<span class="muted">Pick two dates</span>'; return; }
+    if (!$a.value || !$b.value){ $diff.innerHTML = empty('Pick two dates'); return; }
     const A = new Date($a.value + 'T00:00:00');
     const B = new Date($b.value + 'T00:00:00');
     const total = Math.abs(daysBetween(A, B));
@@ -62,35 +76,34 @@ function daysInMonth(y, m){ return [31, isLeap(y)?29:28,31,30,31,30,31,31,30,31,
     const weeks = Math.floor(total / 7);
     const hours = total * 24;
     const minutes = hours * 60;
-    $diff.innerHTML = `
-      <div class="kv"><span>Total days</span><span>${total}</span></div>
-      <div class="kv"><span>Weeks + days</span><span>${weeks} weeks ${total % 7} days</span></div>
-      <div class="kv"><span>Years / Months / Days</span><span>${ymd.y} y ${ymd.m} m ${ymd.d} d</span></div>
-      <div class="kv"><span>Hours</span><span>${hours}</span></div>
-      <div class="kv"><span>Minutes</span><span>${minutes}</span></div>`;
+    $diff.innerHTML =
+      kv('Total days', num(total)) +
+      kv('Weeks + days', t('{w} weeks {d} days', { w: num(weeks), d: num(total % 7) })) +
+      kv('Years / Months / Days', t('{y} y {m} m {d} d', { y: ymd.y, m: ymd.m, d: ymd.d })) +
+      kv('Hours', num(hours)) +
+      kv('Minutes', num(minutes));
   }
 
   function renderAdd(){
-    if (!$base.value){ $addOut.innerHTML = '<span class="muted">Pick a start date</span>'; return; }
+    if (!$base.value){ $addOut.innerHTML = empty('Pick a start date'); return; }
     const base = new Date($base.value + 'T00:00:00');
     const res = addToDate(base, parseInt($y.value||0,10), parseInt($m.value||0,10), parseInt($d.value||0,10));
-    const dow = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][res.getDay()];
-    $addOut.innerHTML = `
-      <div class="kv"><span>Result date</span><span>${res.getFullYear()}-${String(res.getMonth()+1).padStart(2,'0')}-${String(res.getDate()).padStart(2,'0')}</span></div>
-      <div class="kv"><span>Weekday</span><span>${dow}</span></div>
-      <div class="kv"><span>Leap year</span><span>${isLeap(res.getFullYear()) ? 'Yes' : 'No'}</span></div>`;
+    $addOut.innerHTML =
+      kv('Result date', iso(res)) +
+      kv('Weekday', weekdayName(res)) +
+      kv('Leap year', t(isLeap(res.getFullYear()) ? 'Yes' : 'No'));
   }
 
   function renderAge(){
-    if (!$ageBirth.value){ $ageOut.innerHTML = '<span class="muted">Pick a birth date</span>'; return; }
+    if (!$ageBirth.value){ $ageOut.innerHTML = empty('Pick a birth date'); return; }
     const b = new Date($ageBirth.value + 'T00:00:00');
     const now = new Date();
     const ymd = diffYMD(b, now);
     const days = Math.abs(daysBetween(b, now));
-    $ageOut.innerHTML = `
-      <div class="kv"><span>Age</span><span>${ymd.y} years ${ymd.m} months ${ymd.d} days</span></div>
-      <div class="kv"><span>Days lived</span><span>${days.toLocaleString()}</span></div>
-      <div class="kv"><span>Next birthday in</span><span>${nextBirthday(b)} days</span></div>`;
+    $ageOut.innerHTML =
+      kv('Age', t('{y} years {m} months {d} days', { y: ymd.y, m: ymd.m, d: ymd.d })) +
+      kv('Days lived', num(days)) +
+      kv('Next birthday in', t('{d} days', { d: num(nextBirthday(b)) }));
   }
 
   function nextBirthday(b){
@@ -109,9 +122,8 @@ function daysInMonth(y, m){ return [31, isLeap(y)?29:28,31,30,31,30,31,31,30,31,
     $ageBirth.addEventListener(ev, renderAge);
   });
 
-  // 默认值
+  // 默认值（iso() 定义在上面）
   const today = new Date();
-  const iso = d => d.toISOString().slice(0,10);
   $a.value = iso(today);
   $b.value = iso(new Date(today.getTime() + 30*86400000));
   $base.value = iso(today);

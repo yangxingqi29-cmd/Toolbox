@@ -57,7 +57,7 @@ function amortizeLinear(P, annualRate, years){
 }
 
 function money(n){
-  return n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  return n.toLocaleString(i18nLocale(), {minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
 // ---- 页面绑定 ----
@@ -78,25 +78,31 @@ function money(n){
     const rate = parseFloat($rate.value) || 0;
     const years = parseFloat($years.value) || 1;
 
-    if (P <= 0){ $out.innerHTML = '<span class="muted">Enter a loan amount</span>'; return; }
+    if (P <= 0){
+      $out.innerHTML = '<span class="muted">' + t('Enter a loan amount') + '</span>';
+      return;
+    }
+
+    const kv = (label, value) =>
+      `<div class="kv"><span>${t(label)}</span><span>${value}</span></div>`;
 
     let res, html;
     if ($type.value === 'linear'){
       res = amortizeLinear(P, rate, years);
-      html = `
-        <div class="kv"><span>First payment</span><span>${money(res.monthlyFirst)}</span></div>
-        <div class="kv"><span>Last payment</span><span>${money(res.monthlyLast)}</span></div>
-        <div class="kv"><span>Total interest</span><span>${money(res.totalInterest)}</span></div>
-        <div class="kv"><span>Total paid</span><span>${money(res.totalPaid)}</span></div>
-        <div class="kv"><span>Interest / principal</span><span>${(res.totalInterest/P*100).toFixed(1)}%</span></div>`;
+      html =
+        kv('First payment', money(res.monthlyFirst)) +
+        kv('Last payment', money(res.monthlyLast)) +
+        kv('Total interest', money(res.totalInterest)) +
+        kv('Total paid', money(res.totalPaid)) +
+        kv('Interest / principal', (res.totalInterest / P * 100).toFixed(1) + '%');
     } else {
       res = amortize(P, rate, years);
-      html = `
-        <div class="kv"><span>Monthly payment</span><span>${money(res.monthly)}</span></div>
-        <div class="kv"><span>Total interest</span><span>${money(res.totalInterest)}</span></div>
-        <div class="kv"><span>Total paid</span><span>${money(res.totalPaid)}</span></div>
-        <div class="kv"><span>Interest / principal</span><span>${(res.totalInterest/P*100).toFixed(1)}%</span></div>
-        <div class="kv"><span>Payments</span><span>${res.schedule.length} months</span></div>`;
+      html =
+        kv('Monthly payment', money(res.monthly)) +
+        kv('Total interest', money(res.totalInterest)) +
+        kv('Total paid', money(res.totalPaid)) +
+        kv('Interest / principal', (res.totalInterest / P * 100).toFixed(1) + '%') +
+        kv('Payments', t('{n} months', { n: res.schedule.length }));
     }
     $out.innerHTML = html;
 
@@ -110,7 +116,8 @@ function money(n){
         byYear[y].interest  += row.interest;
         byYear[y].balance    = row.balance;
       });
-      let rows = '<div class="kv" style="font-weight:600"><span>Year</span><span>Principal / Interest / Balance</span></div>';
+      let rows = '<div class="kv" style="font-weight:600"><span>' + t('Year') + '</span><span>' +
+                 t('Principal / Interest / Balance') + '</span></div>';
       Object.entries(byYear).forEach(([y,v])=>{
         rows += `<div class="kv"><span>${y}</span><span>${money(v.principal)} / ${money(v.interest)} / ${money(v.balance)}</span></div>`;
       });
@@ -127,7 +134,7 @@ function money(n){
 
   $toggle.addEventListener('click', ()=>{
     showSched = !showSched;
-    $toggle.textContent = showSched ? 'Hide amortization' : 'Show amortization';
+    $toggle.textContent = t(showSched ? 'Hide amortization' : 'Show amortization');
     run();
   });
 

@@ -1,11 +1,11 @@
 /* ==========================================================================
-   nav.js — 全站导航注入
-   工具多了以后导航不能每页手写，这里统一渲染。
-   自动判断当前在 /tools/ 还是根目录，拼相对路径。
-   新增工具 = 在 GROUPS 里加一行，全站导航同步更新。
+   nav.js — 全站导航 + 语言切换
+   依赖 i18n.js（必须先加载）。
+   工具名和分组名走 t()，加新工具只改 GROUPS 一处。
    ========================================================================== */
 (function(){
-  const inTools = location.pathname.includes('/tools/');
+
+  const inTools = location.pathname.indexOf('/tools/') >= 0;
   const base = inTools ? '../' : '';
 
   const GROUPS = [
@@ -37,18 +37,40 @@
     ]]
   ];
 
-  const nav = document.getElementById('nav');
-  if (!nav) return;
+  function render(){
+    const nav = document.getElementById('nav');
+    if (!nav) return;
 
-  let html = `<a href="${base}index.html">Home</a>`;
-  html += `<span class="nav-dd"><a>Tools &#9662;</a><span class="menu">`;
-  for (const [group, items] of GROUPS){
-    html += `<span class="menu-h">${group}</span>`;
-    for (const [file, label] of items){
-      html += `<a href="${base}tools/${file}">${label}</a>`;
+    let html = '<a href="' + base + 'index.html">' + t('Home') + '</a>';
+
+    html += '<span class="nav-dd"><a>' + t('Tools') + ' &#9662;</a><span class="menu">';
+    for (const [group, items] of GROUPS){
+      html += '<span class="menu-h">' + t(group) + '</span>';
+      for (const [file, label] of items){
+        html += '<a href="' + base + 'tools/' + file + '">' + t(label) + '</a>';
+      }
     }
-  }
-  html += `</span></span>`;
+    html += '</span></span>';
 
-  nav.innerHTML = html;
+    const lang = i18nLang();
+    html += '<span class="nav-dd nav-lang"><a title="' + t('Language') + '">' +
+            I18N_SHORT[lang] + ' &#9662;</a><span class="menu">';
+    for (const code of I18N_LANGS){
+      html += '<a href="#" data-lang="' + code + '"' + (code === lang ? ' class="on"' : '') + '>' +
+              I18N_LABELS[code] + '</a>';
+    }
+    html += '</span></span>';
+
+    nav.innerHTML = html;
+
+    nav.querySelectorAll('[data-lang]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        setLang(a.getAttribute('data-lang'));
+      });
+    });
+  }
+
+  render();
+  document.addEventListener('i18n:changed', render);
 })();

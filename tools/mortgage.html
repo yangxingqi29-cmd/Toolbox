@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mortgage Calculator — Monthly Payment & Amortization</title>
-<meta name="description" content="Free mortgage and loan calculator. Get your monthly payment, total interest and a year-by-year amortization schedule.">
+<title data-i18n="Mortgage Calculator — Monthly Payment &amp; Amortization">Mortgage Calculator — Monthly Payment & Amortization</title>
+<meta name="description" content="Free mortgage and loan calculator. Get your monthly payment, total interest and a year-by-year amortization schedule." data-i18n-content="Free mortgage and loan calculator. Get your monthly payment, total interest and a year-by-year amortization schedule.">
 <link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
 </head>
 <body>
 
@@ -20,47 +21,47 @@
 <main>
   <div class="wrap">
 
-    <div class="breadcrumb"><a href="../index.html">Home</a> / Mortgage Calculator</div>
+    <div class="breadcrumb"><a href="../index.html" data-i18n="Home">Home</a> <span>/</span> <span data-i18n="Mortgage Calculator">Mortgage Calculator</span></div>
 
     <div class="tool-head">
-      <h1>Mortgage Calculator</h1>
-      <p>Work out monthly payments, total interest and a full amortization schedule.</p>
+      <h1 data-i18n="Mortgage Calculator">Mortgage Calculator</h1>
+      <p data-i18n="Work out monthly payments, total interest and a full amortization schedule.">Work out monthly payments, total interest and a full amortization schedule.</p>
     </div>
 
-    <div class="ad-slot leaderboard" data-ad="mort-top">Ad slot — 728x90 / responsive</div>
+    <div class="ad-slot leaderboard" data-ad="mort-top" data-i18n="Ad slot — 728x90 / responsive">Ad slot — 728x90 / responsive</div>
 
     <div class="panel">
       <div class="row">
-        <div class="field"><label for="amount">Loan amount</label><input type="number" id="amount" value="300000" step="1000"></div>
-        <div class="field"><label for="rate">Annual interest rate (%)</label><input type="number" id="rate" value="6.5" step="0.01"></div>
+        <div class="field"><label for="amount" data-i18n="Loan amount">Loan amount</label><input type="number" id="amount" value="300000" step="1000"></div>
+        <div class="field"><label for="rate" data-i18n="Annual interest rate (%)">Annual interest rate (%)</label><input type="number" id="rate" value="6.5" step="0.01"></div>
       </div>
       <div class="row">
-        <div class="field"><label for="years">Term (years)</label><input type="number" id="years" value="30" step="1"></div>
+        <div class="field"><label for="years" data-i18n="Term (years)">Term (years)</label><input type="number" id="years" value="30" step="1"></div>
         <div class="field">
-          <label for="type">Repayment type</label>
+          <label for="type" data-i18n="Repayment type">Repayment type</label>
           <select id="type">
-            <option value="amortizing" selected>Equal payments (amortizing)</option>
-            <option value="linear">Equal principal (linear)</option>
+            <option value="amortizing" selected data-i18n="Equal payments (amortizing)">Equal payments (amortizing)</option>
+            <option value="linear" data-i18n="Equal principal (linear)">Equal principal (linear)</option>
           </select>
         </div>
       </div>
       <div class="btn-row" style="margin-bottom:18px">
-        <button class="btn ghost" id="toggleSched">Show amortization</button>
+        <button class="btn ghost" id="toggleSched" data-i18n="Show amortization">Show amortization</button>
       </div>
       <div id="result"></div>
     </div>
 
     <div class="panel" id="schedule" style="display:none"></div>
 
-    <div class="ad-slot rect" data-ad="mort-mid">Ad slot — 300x250</div>
+    <div class="ad-slot rect" data-ad="mort-mid" data-i18n="Ad slot — 300x250">Ad slot — 300x250</div>
 
   </div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>&copy; 2026 Toolbox. Estimates only — not financial advice.</span>
-    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+    <span data-i18n="© 2026 Toolbox. Estimates only — not financial advice.">&copy; 2026 Toolbox. Estimates only — not financial advice.</span>
+    <span><a href="../index.html" data-i18n="Home">Home</a> &middot; <a href="../privacy.html" data-i18n="Privacy">Privacy</a></span>
   </div>
 </footer>
 

@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Unit Converter — Length, Weight, Temperature, Area, Speed</title>
-<meta name="description" content="Free online unit converter. Convert length, weight, temperature, area, volume and speed instantly in your browser.">
+<title data-i18n="Unit Converter — Length, Weight, Temperature, Area, Speed">Unit Converter — Length, Weight, Temperature, Area, Speed</title>
+<meta name="description" content="Free online unit converter. Convert length, weight, temperature, area, volume and speed instantly in your browser." data-i18n-content="Free online unit converter. Convert length, weight, temperature, area, volume and speed instantly in your browser.">
 <link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
 </head>
 <body>
 
@@ -20,50 +21,50 @@
 <main>
   <div class="wrap">
 
-    <div class="breadcrumb"><a href="../index.html">Home</a> / Unit Converter</div>
+    <div class="breadcrumb"><a href="../index.html" data-i18n="Home">Home</a> <span>/</span> <span data-i18n="Unit Converter">Unit Converter</span></div>
 
     <div class="tool-head">
-      <h1>Unit Converter</h1>
-      <p>Convert between common units of length, weight, temperature, area, volume and speed.</p>
+      <h1 data-i18n="Unit Converter">Unit Converter</h1>
+      <p data-i18n="Convert between common units of length, weight, temperature, area, volume and speed.">Convert between common units of length, weight, temperature, area, volume and speed.</p>
     </div>
 
-    <div class="ad-slot leaderboard" data-ad="unit-top">Ad slot — 728x90 / responsive</div>
+    <div class="ad-slot leaderboard" data-ad="unit-top" data-i18n="Ad slot — 728x90 / responsive">Ad slot — 728x90 / responsive</div>
 
     <div class="panel">
 
       <div class="field">
-        <label for="category">Category</label>
+        <label for="category" data-i18n="Category">Category</label>
         <select id="category">
-          <option value="length">Length</option>
-          <option value="weight">Weight / Mass</option>
-          <option value="temperature">Temperature</option>
-          <option value="area">Area</option>
-          <option value="volume">Volume</option>
-          <option value="speed">Speed</option>
-          <option value="time">Time</option>
-          <option value="data">Digital Storage</option>
+          <option value="length" data-i18n="Length">Length</option>
+          <option value="weight" data-i18n="Weight / Mass">Weight / Mass</option>
+          <option value="temperature" data-i18n="Temperature">Temperature</option>
+          <option value="area" data-i18n="Area">Area</option>
+          <option value="volume" data-i18n="Volume">Volume</option>
+          <option value="speed" data-i18n="Speed">Speed</option>
+          <option value="time" data-i18n="Time">Time</option>
+          <option value="data" data-i18n="Digital Storage">Digital Storage</option>
         </select>
       </div>
 
       <div class="row">
         <div class="field">
-          <label for="value">Value</label>
+          <label for="value" data-i18n="Value">Value</label>
           <input id="value" type="number" value="1" step="any" inputmode="decimal">
         </div>
         <div class="field">
-          <label for="from">From</label>
+          <label for="from" data-i18n="From">From</label>
           <select id="from"></select>
         </div>
       </div>
 
       <div class="field">
-        <label for="to">To</label>
+        <label for="to" data-i18n="To">To</label>
         <select id="to"></select>
       </div>
 
       <div class="btn-row" style="margin-bottom:16px">
-        <button class="btn" id="swap">&#8646; Swap units</button>
-        <button class="btn ghost sm" id="copy">Copy result</button>
+        <button class="btn" id="swap" data-i18n="⇆ Swap units">&#8646; Swap units</button>
+        <button class="btn ghost sm" id="copy" data-i18n="Copy result">Copy result</button>
       </div>
 
       <div class="out lg" id="result">—</div>
@@ -71,15 +72,15 @@
 
     </div>
 
-    <div class="ad-slot rect" data-ad="unit-mid">Ad slot — 300x250</div>
+    <div class="ad-slot rect" data-ad="unit-mid" data-i18n="Ad slot — 300x250">Ad slot — 300x250</div>
 
   </div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>&copy; 2026 Toolbox. All tools run locally in your browser.</span>
-    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+    <span data-i18n="© 2026 Toolbox. All tools run locally in your browser.">&copy; 2026 Toolbox. All tools run locally in your browser.</span>
+    <span><a href="../index.html" data-i18n="Home">Home</a> &middot; <a href="../privacy.html" data-i18n="Privacy">Privacy</a></span>
   </div>
 </footer>
 
