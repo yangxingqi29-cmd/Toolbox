@@ -1,0 +1,80 @@
+# 广告位接入说明 (ads/slots.html)
+
+本站所有页面已预留广告位，统一用 `<div class="ad-slot ..." data-ad="...">` 占位。
+接入广告联盟后，把占位内容替换成联盟给的代码即可，**不要**同时放两家代码在同一位置。
+
+## 页面已埋好的广告位
+
+| 页面 | data-ad | 类型 | 建议尺寸 |
+|---|---|---|---|
+| index.html | home-top | leaderboard | 728x90 / 自适应 |
+| index.html | home-mid | rect | 300x250 |
+| tools/unit-converter.html | unit-top | leaderboard | 728x90 |
+| tools/unit-converter.html | unit-mid | rect | 300x250 |
+| tools/currency-converter.html | fx-top | leaderboard | 728x90 |
+| tools/currency-converter.html | fx-mid | rect | 300x250 |
+| tools/password-generator.html | pw-top | leaderboard | 728x90 |
+| tools/password-generator.html | pw-mid | rect | 300x250 |
+| tools/color-converter.html | color-top | leaderboard | 728x90 |
+| tools/color-converter.html | color-mid | rect | 300x250 |
+| tools/qr-generator.html | qr-top | leaderboard | 728x90 |
+| tools/qr-generator.html | qr-mid | rect | 300x250 |
+
+## 三种联盟代码的接法示例
+
+### 1) Monetag（新手推荐，$5 起提）
+
+```html
+<!-- 把这段放进 <head> 或页面底部 -->
+<script src="//libtl.com/sdk.js" data-zone="YOUR_ZONE_ID" data-sdk="show_XXXX"></script>
+
+<!-- 或者 In-Page Push / Banner 格式，按后台给的代码原样粘贴 -->
+<div id="monetag-slot-YOUR_ZONE_ID"></div>
+<script src="//upgulpinon.com/1?z=YOUR_ZONE_ID" async></script>
+```
+
+### 2) Adsterra（Banner）
+
+```html
+<!-- 后台复制 "Banner" 代码，例如 728x90 -->
+<script type="text/javascript">
+  atOptions = {
+    'key' : 'YOUR_KEY',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="//www.highperformanceformat.com/YOUR_KEY/invoke.js"></script>
+```
+
+### 3) Google AdSense（内容起来后申请）
+
+```html
+<!-- 首次：在 <head> 放验证脚本 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+<!-- 每个广告位 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+     data-ad-slot="1234567890"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+```
+
+## 替换步骤
+
+1. 注册联盟账号 → 提交你的域名 → 等审核通过
+2. 后台创建广告位 → 拿到代码
+3. 打开对应 html，找到 `<div class="ad-slot ..." data-ad="xxx">...</div>`
+4. 把 `...</div>` 内部替换为联盟代码（或整个 div 换成代码）
+5. 上传到托管平台，刷新看是否出广告
+
+## 注意事项
+
+- **同一位置只放一家**，多联盟要分不同位置
+- 广告别遮内容、别诱导点击，否则封号
+- 新站先养内容，审核期别挂太多广告位，会被拒

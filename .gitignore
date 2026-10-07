@@ -1,0 +1,22 @@
+# 依赖 / 构建产物（本项目目前零依赖，留着以后用）
+node_modules/
+dist/
+build/
+.cache/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 日志 / 临时文件
+*.log
+npm-debug.log*
+*.tmp
+*~
+
+# 环境变量（万一以后加了）
+.env
+.env.local

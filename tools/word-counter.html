@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Word Counter — Characters, Words, Reading Time</title>
+<meta name="description" content="Free online word counter. Count words, characters, sentences and paragraphs, estimate reading time, and see the most frequent words.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Tool<span>box</span></a>
+    <nav id="nav"></nav>
+  </div>
+</header>
+<script src="../js/nav.js"></script>
+
+<main>
+  <div class="wrap">
+
+    <div class="breadcrumb"><a href="../index.html">Home</a> / Word Counter</div>
+
+    <div class="tool-head">
+      <h1>Word Counter</h1>
+      <p>Live word, character and sentence counts with reading time. Handles English and Chinese text.</p>
+    </div>
+
+    <div class="ad-slot leaderboard" data-ad="wc-top">Ad slot — 728x90 / responsive</div>
+
+    <div class="panel">
+      <div class="field">
+        <label for="input">Your text</label>
+        <textarea id="input" rows="10" placeholder="Paste or type your text here…"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn ghost sm" id="copy">Copy stats</button>
+        <button class="btn ghost sm" id="clear">Clear</button>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <h2 style="font-size:16px">Statistics</h2>
+        <div id="stats"></div>
+      </div>
+      <div class="panel">
+        <h2 style="font-size:16px">Most frequent words</h2>
+        <div id="topwords"></div>
+      </div>
+    </div>
+
+    <div class="ad-slot rect" data-ad="wc-mid">Ad slot — 300x250</div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>&copy; 2026 Toolbox. All tools run locally in your browser.</span>
+    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+  </div>
+</footer>
+
+<script src="../js/word-counter.js"></script>
+</body>
+</html>

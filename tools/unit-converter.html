@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unit Converter — Length, Weight, Temperature, Area, Speed</title>
+<meta name="description" content="Free online unit converter. Convert length, weight, temperature, area, volume and speed instantly in your browser.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Tool<span>box</span></a>
+    <nav id="nav"></nav>
+  </div>
+</header>
+<script src="../js/nav.js"></script>
+
+<main>
+  <div class="wrap">
+
+    <div class="breadcrumb"><a href="../index.html">Home</a> / Unit Converter</div>
+
+    <div class="tool-head">
+      <h1>Unit Converter</h1>
+      <p>Convert between common units of length, weight, temperature, area, volume and speed.</p>
+    </div>
+
+    <div class="ad-slot leaderboard" data-ad="unit-top">Ad slot — 728x90 / responsive</div>
+
+    <div class="panel">
+
+      <div class="field">
+        <label for="category">Category</label>
+        <select id="category">
+          <option value="length">Length</option>
+          <option value="weight">Weight / Mass</option>
+          <option value="temperature">Temperature</option>
+          <option value="area">Area</option>
+          <option value="volume">Volume</option>
+          <option value="speed">Speed</option>
+          <option value="time">Time</option>
+          <option value="data">Digital Storage</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="value">Value</label>
+          <input id="value" type="number" value="1" step="any" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label for="from">From</label>
+          <select id="from"></select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="to">To</label>
+        <select id="to"></select>
+      </div>
+
+      <div class="btn-row" style="margin-bottom:16px">
+        <button class="btn" id="swap">&#8646; Swap units</button>
+        <button class="btn ghost sm" id="copy">Copy result</button>
+      </div>
+
+      <div class="out lg" id="result">—</div>
+      <div class="hint" id="formula"></div>
+
+    </div>
+
+    <div class="ad-slot rect" data-ad="unit-mid">Ad slot — 300x250</div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>&copy; 2026 Toolbox. All tools run locally in your browser.</span>
+    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+  </div>
+</footer>
+
+<script src="../js/units.js"></script>
+</body>
+</html>

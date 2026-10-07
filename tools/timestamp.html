@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unix Timestamp Converter — Epoch to Date</title>
+<meta name="description" content="Convert Unix timestamps to human dates and back. Supports seconds and milliseconds, local time, UTC and ISO 8601. Free and instant.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Tool<span>box</span></a>
+    <nav id="nav"></nav>
+  </div>
+</header>
+<script src="../js/nav.js"></script>
+
+<main>
+  <div class="wrap">
+
+    <div class="breadcrumb"><a href="../index.html">Home</a> / Timestamp Converter</div>
+
+    <div class="tool-head">
+      <h1>Unix Timestamp Converter</h1>
+      <p>Paste a timestamp to get a date, or pick a date to get its timestamp. Seconds and milliseconds auto-detected.</p>
+    </div>
+
+    <div class="ad-slot leaderboard" data-ad="ts-top">Ad slot — 728x90 / responsive</div>
+
+    <div class="panel">
+      <h2 style="font-size:17px">Timestamp &#8594; Date</h2>
+      <div class="field">
+        <label for="ts">Unix timestamp</label>
+        <input type="text" id="ts" placeholder="e.g. 1791500000" spellcheck="false">
+      </div>
+      <div class="btn-row" style="margin-bottom:16px">
+        <button class="btn" id="now">Use current time</button>
+        <button class="btn ghost sm" id="clear">Clear</button>
+      </div>
+      <div id="out"><span class="muted">—</span></div>
+    </div>
+
+    <div class="panel">
+      <h2 style="font-size:17px">Date &#8594; Timestamp</h2>
+      <div class="field">
+        <label for="date">Date &amp; time (local)</label>
+        <input type="datetime-local" id="date">
+      </div>
+      <div id="tsOut"><span class="muted">—</span></div>
+    </div>
+
+    <div class="ad-slot rect" data-ad="ts-mid">Ad slot — 300x250</div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>&copy; 2026 Toolbox. All tools run locally in your browser.</span>
+    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+  </div>
+</footer>
+
+<script src="../js/timestamp.js"></script>
+</body>
+</html>

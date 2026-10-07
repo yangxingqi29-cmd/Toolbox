@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PDF Merge & Split — Combine or Extract PDF Pages Free</title>
+<meta name="description" content="Free online PDF tools. Merge multiple PDFs into one, or extract a page range into a new file. Runs in your browser — files are never uploaded.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Tool<span>box</span></a>
+    <nav id="nav"></nav>
+  </div>
+</header>
+<script src="../js/nav.js"></script>
+
+<main>
+  <div class="wrap">
+
+    <div class="breadcrumb"><a href="../index.html">Home</a> / PDF Merge &amp; Split</div>
+
+    <div class="tool-head">
+      <h1>PDF Merge &amp; Split</h1>
+      <p>Combine several PDFs, or pull out a page range. Files are processed locally and never uploaded.</p>
+    </div>
+
+    <div class="ad-slot leaderboard" data-ad="pdf-top">Ad slot — 728x90 / responsive</div>
+
+    <div class="panel">
+      <h2 style="font-size:17px">Merge PDFs</h2>
+      <div id="mergeDrop" style="border:2px dashed var(--line);border-radius:var(--radius);padding:26px;text-align:center;cursor:pointer;transition:border-color .15s;margin-bottom:14px">
+        <div style="font-size:26px;margin-bottom:6px">&#128196;</div>
+        <div><b>Drop PDF files here</b> or click to choose (2 or more)</div>
+        <input type="file" id="mergeInput" accept="application/pdf" multiple style="display:none">
+      </div>
+      <div id="mergeList" style="margin-bottom:14px"><span class="muted">No files selected</span></div>
+      <button class="btn" id="mergeBtn">Merge PDFs</button>
+    </div>
+
+    <div class="panel">
+      <h2 style="font-size:17px">Split / Extract pages</h2>
+      <div class="field">
+        <label for="splitInput">PDF file</label>
+        <input type="file" id="splitInput" accept="application/pdf">
+      </div>
+      <div class="field">
+        <label for="splitRange">Page range</label>
+        <input type="text" id="splitRange" value="1-3" placeholder="e.g. 1-3,5,7-9">
+        <div class="hint">Use commas for separate pages and dashes for ranges.</div>
+      </div>
+      <button class="btn" id="splitBtn">Extract pages</button>
+    </div>
+
+    <div class="hint" id="pdfStatus"></div>
+
+    <div class="ad-slot rect" data-ad="pdf-mid">Ad slot — 300x250</div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>&copy; 2026 Toolbox. Powered by pdf-lib, running locally.</span>
+    <span><a href="../index.html">Home</a> &middot; <a href="../privacy.html">Privacy</a></span>
+  </div>
+</footer>
+
+<!-- pdf-lib：PDF 处理库，CDN 加载 -->
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="../js/pdf-tools.js"></script>
+</body>
+</html>
