@@ -1,102 +1,137 @@
 # 加一个新工具 = 复制同结构（4 步）
 
-本站每个工具都是"一个 html + 一个 js"，互不依赖。加新工具就复制这两块，改内容即可。
+本站每个工具都是「一个 html + 一个 js」，互不依赖。加新工具就复制这两块，改内容即可。
+
+**核心约定：一个 js 文件分两半，中间用 `// ---- 页面绑定 ----` 分隔。**
+
+```
+上半部分：纯函数（无 DOM、无 window）  ← test.js 只 eval 这一段
+下半部分：(function init(){ ... })()   ← DOM 操作全在这里
+```
+
+这条约定是 `node test.js` 能跑单测的前提，别破坏它。
 
 ---
 
 ## Step 1 — 复制页面
 
 ```bash
-cp tools/base64.html tools/json-formatter.html
+cp tools/base64.html tools/my-tool.html
 ```
 
 改 4 处：
-- `<title>` 和 `<meta name="description">`（SEO 用，写清楚这个工具干嘛）
-- `<h1>` 和 `<p>`（页面标题和说明）
-- `<script src="../js/xxx.js">` 指向新 js
-- 表单区（`<div class="panel">` 里面）换成新工具的控件
 
-> 顶部导航、面包屑、广告位、页脚**不用动**，它们是全站统一的。
+- `<title>` 和 `<meta name="description">`（SEO 用，写清楚这个工具干嘛、给谁用）
+- `<h1>` 和 `.tool-head` 里的 `<p>`（页面标题和一句话说明）
+- `<script src="../js/xxx.js">` 指向新 js
+- `.panel` 里的表单控件换成新工具的
+
+> 顶部导航、面包屑、广告位、页脚**不用动**，它们是全站统一的（导航由 `js/nav.js` 注入）。
 
 ## Step 2 — 复制脚本
 
 ```bash
-cp js/base64.js js/json-formatter.js
+cp js/base64.js js/my-tool.js
 ```
 
-只保留你要的逻辑，**页面绑定段（`(function init(){...})()`）按新控件重写**。
-工具逻辑（纯函数）放上半部分，DOM 操作放下半部分，互不污染。
+保留你要的纯逻辑，**页面绑定段整体按新控件重写**。上半部分只留纯函数。
 
-## Step 3 — 挂到首页
+## Step 3 — 挂到导航（一处改动，全站生效）
 
-编辑 `index.html`，在 `<section class="grid">` 里复制一张卡片：
+编辑 `js/nav.js`，在 `GROUPS` 里对应分类下加一行：
+
+```js
+['Calculators', [
+  ['mortgage.html',        'Mortgage Calculator'],
+  ['date-calculator.html', 'Date Calculator'],
+  ['my-tool.html',         'My Tool']          // ← 加这行
+]]
+```
+
+新分类就再加一个 `['分类名', [...]]`。
+
+## Step 4 — 挂到首页
+
+编辑 `index.html`，在对应分类的 `<section class="grid">` 里复制一张卡片：
 
 ```html
-<a class="tile" href="tools/json-formatter.html">
+<a class="tile" href="tools/my-tool.html">
   <div class="ico">&#128295;</div>
-  <h3>JSON Formatter</h3>
-  <p>Pretty-print, minify and validate JSON.</p>
+  <h3>My Tool</h3>
+  <p>One sentence about what it does.</p>
 </a>
 ```
 
-## Step 4 — 更新导航（可选）
-
-导航是各页手写的，加一个工具要同步。批量替换：
-
-```bash
-cd tools
-sed -i 's|\(<a href="base64.html">Base64</a>\)|\1\n      <a href="json-formatter.html">JSON</a>|' *.html
-sed -i 's|\(<a href="tools/base64.html">Base64</a>\)|\1\n      <a href="tools/json-formatter.html">JSON</a>|' ../index.html
-```
-
-（工具多了之后，建议把导航抽成一个 `nav.js` 用 JS 注入，就不用每页改了。）
+顺手把 `tools/my-tool.html` 加进 `sitemap.xml`。
 
 ---
 
-## 现有工具的"骨架"对照
+## 现有工具的「骨架」对照
 
 | 文件 | 纯函数部分 | DOM 绑定部分 |
 |---|---|---|
 | `js/units.js` | `convert()` / `fmt()` / `UNITS` 表 | `fillUnits()` / `render()` |
 | `js/currency.js` | `convert()` / `loadRates()` | `render()` / `renderPopular()` |
-| `js/password.js` | `randInt()` / `generate()` / `strength()` | `run()` |
+| `js/timestamp.js` | `parseTimestamp()` / `fmtLocal/UTC/ISO/RFC()` / `relative()` | `render()` |
 | `js/color.js` | `parseHex/Rgb/Hsl()`、`rgbToHex/Hsl()`、`hslToRgb()` | `updateFrom()` |
+| `js/case-converter.js` | `splitWords()` / `TRANSFORMS` / `convert()` | `render()` |
+| `js/password.js` | `randInt()` / `generate()` / `strength()` | `run()` |
+| `js/uuid.js` | `uuidV4()` / `formatUuid()` | `render()` |
 | `js/qrcode.js` | GF256 / RS / `buildQR()` / `penalty()` | `renderQR()` |
+| `js/json-formatter.js` | `jsonValidate()` / `parseJSON()` / `stringifyJSON()` / `jsonStats()` | `run()` |
 | `js/base64.js` | `encodeText()` / `decodeText()` / `looksLikeBase64()` | `doEncode()` / `doDecode()` |
+| `js/regex-tester.js` | `findMatches()` / `highlight()` / `esc()` | `render()` |
+| `js/word-counter.js` | `analyze()` / `topWords()` | `render()` |
+| `js/image-compressor.js` | `targetSize()` / `compress()` | `run()` |
+| `js/pdf-tools.js` | `mergePdfs()` / `extractPages()` / `parseRange()` | `run()` |
+| `js/mortgage.js` | `monthlyPayment()` / `amortize()` / `amortizeLinear()` | `render()` |
+| `js/date-calculator.js` | `daysBetween()` / `diffYMD()` / `addToDate()` / `isLeap()` | `render()` |
 
 **规律：上半部分是可测试的纯逻辑，下半部分是 `(function init(){...})()`。**
-所以 `node test.js` 能直接 eval 上半部分来跑单测。
 
 ---
 
-## 下一批建议工具（都符合"纯前端 + 高 RPM"）
+## 加测试
 
-| 工具 | 难度 | 关键词方向 |
-|---|---|---|
-| JSON 格式化/压缩 | ★ | `json formatter`, `json validator` |
-| 图片压缩 | ★★ | `compress image online` |
-| PDF 合并/拆分 | ★★★ | `merge pdf`, `split pdf`（需 pdf-lib CDN） |
-| 时间戳转换 | ★ | `unix timestamp converter` |
-| 日期计算器 | ★ | `date calculator`, `days between dates` |
-| 字数/字符统计 | ★ | `word counter` |
-| 大小写转换 | ★ | `case converter` |
-| 房贷/利息计算器 | ★★ | `mortgage calculator`（欧美流量，单价高） |
-| UUID 生成 | ★ | `uuid generator` |
-| 正则测试 | ★★ | `regex tester` |
-
-**优先级建议**：JSON、图片压缩、PDF、房贷计算器——这四个搜索量大、商业意图强、RPM 高。
-
----
-
-## 测试模板
-
-新工具的纯函数写完后，在 `test.js` 里照抄一段：
+新工具的纯函数写完后，在 `test.js` 里加一段：
 
 ```js
-const xsrc = fs.readFileSync(path.join(__dirname,'js','json-formatter.js'),'utf8')
-  .split('// ---- 页面绑定 ----')[0];
-eval(xsrc);
-eq('pretty print', format('{"a":1}'), '{\n  "a": 1\n}');
+console.log('[my-tool]');
+{
+  const { myFn } = load('my-tool.js', ['myFn']);
+  eq('case name', myFn('input'), 'expected');
+  near('numeric case', myFn(1), 1.5, 1e-9);
+}
 ```
 
-跑 `node test.js` 验证。
+`load()` 会自动切掉 `// ---- 页面绑定 ----` 之后的部分，所以纯函数里**不要碰 DOM**。
+
+跑：
+
+```bash
+node test.js
+```
+
+---
+
+## 下一批候选工具（都符合「纯前端 + 高 RPM」）
+
+| 工具 | 难度 | 关键词方向 | 备注 |
+|---|---|---|---|
+| 图片格式转换 / 转 WebP | ★ | `png to webp`, `convert image` | 复用 image-compressor 的 Canvas 流程 |
+| 视频压缩 | ★★★ | `compress video online` | 需要 ffmpeg.wasm，体积大，但关键词极肥 |
+| 二维码扫描（图片 → 内容） | ★★ | `qr code reader` | 需 jsQR，轻量 |
+| 条码生成 | ★ | `barcode generator` | 与 QR 生成同类，流量互补 |
+| 发票 / 报价单生成器 | ★★ | `invoice generator` | **商业意图最强**，RPM 最高 |
+| 简历生成器 | ★★ | `resume builder`, `cv maker` | 搜索量巨大 |
+| 工资 / 个税计算 | ★ | `salary calculator`, `take home pay` | 欧美流量单价高 |
+| 单位换算补充：烹饪 / 烘焙 | ★ | `cups to grams` | 长尾，量大 |
+| 随机分组 / 抽签 | ★ | `random team generator` | 教师群体刚需 |
+| 密码强度检测 | ★ | `password strength checker` | 复用 password.js 的 `strength()` |
+| 文本差异对比（diff） | ★★ | `text compare`, `diff checker` | 程序员流量 |
+| CSV ↔ JSON 互转 | ★ | `csv to json` | 复用 base64/json 的下载逻辑 |
+| 时区转换 / 会议时间规划 | ★★ | `time zone converter` | 跨境远程办公刚需 |
+| 图片加水印 | ★★ | `add watermark to photo` | 与图片压缩同一套 Canvas 管线 |
+
+**优先级建议**：发票生成器、简历生成器、图片转 WebP、时区转换、CSV↔JSON ——
+这几个搜索量大、商业意图强、且能直接复用现有代码骨架。
