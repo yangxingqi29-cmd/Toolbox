@@ -37,9 +37,10 @@ toolbox/
 ├── scripts/
 │   ├── i18n-tag.js             给静态 HTML 批量打 data-i18n 标记（幂等，可重跑）
 │   ├── i18n-check.js           词典完整性检查：缺翻译 / 死条目
+│   ├── set-domain.js           写入真实域名：canonical + hreflang + sitemap/robots
 │   └── smoke.js                用 jsdom 真跑每个页面 × 每种语言
 ├── ads/slots.html              广告位清单 + 联盟代码接法
-├── test.js                     105 条单测（node test.js）
+├── test.js                     112 条单测（node test.js）
 └── test-qr.js                  QR 编码器结构测试（node test-qr.js）
 ```
 
@@ -113,7 +114,7 @@ python -m http.server 8000
 
 ```bash
 cd toolbox
-node test.js                    # 105 条纯逻辑单测 + i18n 引擎测试
+node test.js                    # 112 条纯逻辑单测 + i18n 引擎测试
 node test-qr.js                 # QR 编码器结构测试
 node scripts/i18n-check.js      # 词典完整性（缺翻译 / 死条目）
 npm install --no-save jsdom
@@ -154,17 +155,7 @@ vercel --prod   # 正式上线
 
 ## 传到 GitHub
 
-在 `toolbox` 目录下执行（第一次）：
-
-```bash
-cd toolbox
-git init
-git add .
-git commit -m "Initial commit: Toolbox static site"
-git branch -M main
-git remote add origin https://github.com/<你的用户名>/<仓库名>.git
-git push -u origin main
-```
+仓库已经建好并推上去了：**https://github.com/yangxingqi29-cmd/Toolbox**
 
 之后每次改动：
 
@@ -175,6 +166,50 @@ git push
 ```
 
 > 仓库建好后，Cloudflare Pages 会自动监听 `main` 分支，**每次 push 自动重新部署**。
+
+<details>
+<summary>从零重建的话（换机器 / 换账号时看）</summary>
+
+```bash
+cd toolbox
+git init
+git add .
+git commit -m "Initial commit: Toolbox static site"
+git branch -M main
+git remote add origin https://github.com/<用户名>/<仓库名>.git   # 尖括号要换成真值，别整行复制
+git push -u origin main
+```
+
+在 GitHub 上先建一个**空仓库**（不要勾 README / .gitignore / license，否则 push 会冲突）。
+
+</details>
+
+---
+
+## 设置域名（部署完立刻做）
+
+`sitemap.xml` / `robots.txt` 里是 `https://example.com` 占位，页面也没有 canonical 和
+静态 hreflang。拿到真实域名后跑一次：
+
+```bash
+node scripts/set-domain.js https://your-domain.com        # 真写
+node scripts/set-domain.js https://your-domain.com --dry  # 先看改什么，不落盘
+```
+
+它会：
+
+- 给 18 个页面写入 `<link rel="canonical">` + 5 条 `<link rel="alternate" hreflang>`
+  （en / zh / es / ru / x-default）
+- 把 `sitemap.xml` 里所有 `<loc>` 的主机名换掉，路径和 priority 原样保留
+- 把 `robots.txt` 的 `Sitemap:` 行改成新域名
+
+**幂等**：同一个域名跑第二遍不会改任何文件；换域名再跑会整体改写，不会累积。
+
+> 为什么要静态写 hreflang：`js/i18n.js` 里的 `installAlternates()` 是运行时用 JS 插 link，
+> 而 hreflang 是给爬虫看的 —— 爬虫读的是原始 HTML。两处不会打架：
+> `installAlternates()` 开头会检查页面上有没有已存在的 alternate，有就跳过。
+
+改完建议再跑一次 `node scripts/smoke.js` 确认页面没坏。
 
 ---
 

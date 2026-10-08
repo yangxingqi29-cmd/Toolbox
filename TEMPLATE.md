@@ -1,4 +1,4 @@
-# 加一个新工具 = 复制同结构（4 步）
+# 加一个新工具 = 复制同结构（6 步）
 
 本站每个工具都是「一个 html + 一个 js」，互不依赖。加新工具就复制这两块，改内容即可。
 
@@ -102,6 +102,20 @@ $status.textContent = t('Merged {n} files → {p} pages', { n, p });
 - `<textarea>` 的内容是**默认值**不是文案，脚本会整块跳过 —— 往里面包 `<span>` 会变成字面文本。
 - 品牌 logo（`Tool<span>box</span>`）里的 "Tool"/"box" 是拆开做样式的，脚本也会跳过。
 - 能交给 `Intl` 的就别进词典（货币名、相对时间、星期名、数字格式），见 README。
+
+---
+
+## Step 6 — 补 SEO 标签（canonical / hreflang）
+
+新页面同样要 `canonical` 和 5 条 `hreflang`，否则搜索引擎可能把 `?lang=zh` 当成重复内容。
+
+别手写 —— 跑一次脚本，它会扫描所有 `*.html` 自动补齐：
+
+```bash
+node scripts/set-domain.js https://your-domain.com
+```
+
+幂等，重跑不会重复插入。**新加了工具页就要再跑一次**，否则新页面漏标签。
 
 ---
 
