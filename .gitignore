@@ -20,3 +20,8 @@ npm-debug.log*
 # 环境变量（万一以后加了）
 .env
 .env.local
+
+# 私有笔记 / 运营资料 —— 不进公开仓库
+NOTES.local.md
+*.local.md
+ads/

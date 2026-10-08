@@ -1,8 +1,8 @@
 # Toolbox — 免费在线工具站
 
-静态多工具站，纯前端、无后端、可离线。**16 个工具 · 4 种语言** + 全站广告位 + 隐私政策页。
+静态多工具站，纯前端、无后端、可离线。**16 个工具 · 4 种语言**。
 
-设计目标：**高搜索量关键词 × 强商业意图 × 零服务器成本**，方便接广告联盟（Monetag / Adsterra / AdSense）。
+所有工具都在浏览器里本地运行 —— 文件不上传、不用注册、不追踪。
 
 ---
 
@@ -11,7 +11,7 @@
 ```
 toolbox/
 ├── index.html                  首页，16 张工具卡片，按 5 个分类分组
-├── privacy.html                隐私政策（AdSense 过审必需）
+├── privacy.html                隐私政策
 ├── robots.txt / sitemap.xml    SEO 收录（部署后替换域名）
 ├── css/style.css               全站样式（变量集中在 :root）
 ├── js/
@@ -39,7 +39,6 @@ toolbox/
 │   ├── i18n-check.js           词典完整性检查：缺翻译 / 死条目
 │   ├── set-domain.js           写入真实域名：canonical + hreflang + sitemap/robots
 │   └── smoke.js                用 jsdom 真跑每个页面 × 每种语言
-├── ads/slots.html              广告位清单 + 联盟代码接法
 ├── test.js                     112 条单测（node test.js）
 └── test-qr.js                  QR 编码器结构测试（node test-qr.js）
 ```
@@ -79,13 +78,13 @@ setStatus(t('Merged {n} files → {p} pages · {size}', { n, p, size }));
 
 **能交给浏览器内置 API 的都不进词典：**
 
-| 内容 | 方案 |
-|---|---|
-| 货币全名（31 种 × 4 语言） | `Intl.DisplayNames` |
-| 相对时间（含俄语 1 год / 2 года / 5 лет 复数） | `Intl.RelativeTimeFormat` |
-| 星期名、数字分组、小数分隔符 | `Intl.DateTimeFormat` / `Intl.NumberFormat` |
+| 内容                                  | 方案                                          |
+| ----------------------------------- | ------------------------------------------- |
+| 货币全名（31 种 × 4 语言）                   | `Intl.DisplayNames`                         |
+| 相对时间（含俄语 1 год / 2 года / 5 лет 复数） | `Intl.RelativeTimeFormat`                   |
+| 星期名、数字分组、小数分隔符                      | `Intl.DateTimeFormat` / `Intl.NumberFormat` |
 
-单位名用紧凑数组存（`I18N.zh.units.length = [...]`），顺序与 `js/units.js` 的 `UNITS` 表一致，
+单位名用紧凑数组存（`I18N.zh.units.length = [...]`），顺序与 `js/units.js` 的 `UNITS` 表一致，  
 60 条单位名只占 8 行。`test.js` 会断言数组长度和 `UNITS` 表对齐，防止漏翻尾部单位。
 
 ### 加一种语言
@@ -126,108 +125,6 @@ node scripts/smoke.js           # 18 个页面 × 4 种语言，真跑一遍
 
 ---
 
-## 部署（三选一，都免费）
-
-### Cloudflare Pages（推荐：免费 + 自带 CDN + 支持自定义域名）
-
-1. 把 `toolbox` 推到一个 GitHub 仓库（见下节）
-2. Cloudflare Dashboard → **Workers & Pages** → Create → **Pages** → Connect to Git → 选仓库
-3. 构建设置：
-   - Framework preset：`None`
-   - Build command：**留空**
-   - Build output directory：`/`（如果仓库根目录就是 toolbox 的内容）
-4. 部署完得到 `xxx.pages.dev`，可再绑自己的域名
-
-### Vercel
-
-```bash
-npm i -g vercel
-cd toolbox
-vercel          # 一路回车，得到 xxx.vercel.app
-vercel --prod   # 正式上线
-```
-
-### Netlify
-
-把 `toolbox` 文件夹直接拖到 https://app.netlify.com/drop
-
----
-
-## 传到 GitHub
-
-仓库已经建好并推上去了：**https://github.com/yangxingqi29-cmd/Toolbox**
-
-之后每次改动：
-
-```bash
-git add .
-git commit -m "描述这次改了什么"
-git push
-```
-
-> 仓库建好后，Cloudflare Pages 会自动监听 `main` 分支，**每次 push 自动重新部署**。
-
-<details>
-<summary>从零重建的话（换机器 / 换账号时看）</summary>
-
-```bash
-cd toolbox
-git init
-git add .
-git commit -m "Initial commit: Toolbox static site"
-git branch -M main
-git remote add origin https://github.com/<用户名>/<仓库名>.git   # 尖括号要换成真值，别整行复制
-git push -u origin main
-```
-
-在 GitHub 上先建一个**空仓库**（不要勾 README / .gitignore / license，否则 push 会冲突）。
-
-</details>
-
----
-
-## 设置域名（部署完立刻做）
-
-`sitemap.xml` / `robots.txt` 里是 `https://example.com` 占位，页面也没有 canonical 和
-静态 hreflang。拿到真实域名后跑一次：
-
-```bash
-node scripts/set-domain.js https://your-domain.com        # 真写
-node scripts/set-domain.js https://your-domain.com --dry  # 先看改什么，不落盘
-```
-
-它会：
-
-- 给 18 个页面写入 `<link rel="canonical">` + 5 条 `<link rel="alternate" hreflang>`
-  （en / zh / es / ru / x-default）
-- 把 `sitemap.xml` 里所有 `<loc>` 的主机名换掉，路径和 priority 原样保留
-- 把 `robots.txt` 的 `Sitemap:` 行改成新域名
-
-**幂等**：同一个域名跑第二遍不会改任何文件；换域名再跑会整体改写，不会累积。
-
-> 为什么要静态写 hreflang：`js/i18n.js` 里的 `installAlternates()` 是运行时用 JS 插 link，
-> 而 hreflang 是给爬虫看的 —— 爬虫读的是原始 HTML。两处不会打架：
-> `installAlternates()` 开头会检查页面上有没有已存在的 alternate，有就跳过。
-
-改完建议再跑一次 `node scripts/smoke.js` 确认页面没坏。
-
----
-
-## 广告接入
-
-见 `ads/slots.html`。所有页面已用 `<div class="ad-slot" data-ad="...">` 预留位置，
-接联盟代码时把 div 里的占位文字换成联盟给的 `<script>` 即可。
-
-常用联盟（按对静态工具站友好度排序）：
-
-| 联盟 | 门槛 | 特点 |
-|---|---|---|
-| Monetag | 低 | 支持 popunder / in-page push，小站也好过 |
-| Adsterra | 低 | banner + popunder，单价稳定 |
-| AdSense | 中 | 需要原创内容 + 隐私政策页（本站已备） |
-
----
-
 ## 加新工具
 
-看 `TEMPLATE.md`，4 步，不需要改任何已有工具的代码。
+看 `TEMPLATE.md`，6 步，不需要改任何已有工具的代码。
